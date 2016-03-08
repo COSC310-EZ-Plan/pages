@@ -161,7 +161,7 @@ Remaining:
                     </tr>
                 </table>
             </div>
-            <table class = "new" style = "margin-left: 25px;">
+            <table id = "add" class = "new" style = "margin-left: 25px;">
                 <td>
                     <div>
                         <img src ='plus.ico' alt ='plus' onclick ='myF()' style="width:50px; height:50px; margin-left: auto; margin-right: auto; display:block;">
@@ -176,31 +176,38 @@ Remaining:
             var count = 0;
             var x;
             var y;
+            var z;
             function myF(){
-                if(count === 0){
-                    x = document.getElementById("selection1");
-                    x.style = "margin-left: 25px";
-                    x.class = "";
-                    y = document.getElementById("content1");
-                    y.style = "display: block;";
-                    count++;
-                }
-                else if(count === 1){
-                    x = document.getElementById("selection2");
-                    x.style = "margin-left: 25px";
-                    x.class = "";
-                    y = document.getElementById("content2");
-                    y.style = "display: block;";
-                    count++; 
-                }
-                else{
-                   x = document.getElementById("selection3");
-                   x.style = "margin-left: 25px";
-                   x.class = "";
-                   y = document.getElementById("content3");
-                   y.style = "display: block;";
-                   count++;
-                }
+                
+                    if(count === 0){
+                        x = document.getElementById("selection1");
+                        x.style = "margin-left: 25px";
+                        x.class = "";
+                        y = document.getElementById("content1");
+                        y.style = "display: block;";
+                        count++;
+                    }
+                    else if(count === 1){
+                        x = document.getElementById("selection2");
+                        x.style = "margin-left: 25px";
+                        x.class = "";
+                        y = document.getElementById("content2");
+                        y.style = "display: block;";
+                        count++; 
+                    }
+                    else{
+                       x = document.getElementById("selection3");
+                       x.style = "margin-left: 25px";
+                       x.class = "";
+                       y = document.getElementById("content3");
+                       y.style = "display: block;";
+                       count++;
+                    }
+                    if(count > 2){
+                        z = document.getElementById("add");
+                        z.style = "display:none;";
+                    }
+                
             }
         </script>
     </body>
