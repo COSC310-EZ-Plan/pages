@@ -1,143 +1,62 @@
-<?php
-$Username = $_POST["Username"];
-$Password = $_POST["Password"];
-$cPassword = $_POST["cPassword"];
-if (!isset($_POST['submit'])) { // if page is not submitted to itself echo the form
-?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<?php session_start(); ?>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Sign up</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <style>
-            html, body, #wrapper{ 
-                height: 100%;
-            }
-            #header{ 
-                border-style: solid;
-                width: 100%;
-            }
-           .homebtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 20px;
-                display: inline-block;
-                border-radius: 50%;
-                
-  
-            }
-           
-            .myinfobtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 15px;
-                display: inline-block;
-                
-                
+            body
+            {
+                background-color: powderblue;
+                font-size: 14pt;
             }
             
-            .myschedbtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                display: inline-block;
-                
-                
+            #page
+            {
+                padding-top: 200px;
             }
             
-            .coursebtn {
-                background-color: black;
+            input[type=text], input[type=password], 
+            input[type=email], input[type=number]
+            {
+                width: 230px;
+                padding: 5px 5px;
+                margin-bottom: 10px;
+                display: inline-block;
+                border: 2px solid #000;
+                border-radius: 4px;
+            }
+            
+            input[type=submit]
+            {
+                padding: 10px 20px;
+                background-color: cadetblue;
                 color: white;
-                padding: 16px;
-                font-size: 16px;
                 border: none;
+                border-radius: 4px;
                 cursor: pointer;
-                display: inline-block;
-                
-                
-            }
-            .degdrop{
-                position: relative;
-                display: inline-block;
-                border: solid;
-                cursor: pointer;
-                display: inline-block;
-                
-            }
-            .degdropcont{
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 100px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                padding-left:6px;
-            }
-            .degdrop:hover .degdropcont{
-                display:block;
-            }
-            #userinfo{
-                background-color: cyan;
-                width: 600px;
-                height: 400px;
-                padding-left: 25px;
-                padding-right: 25px;
-                float: left;
-                overflow-x: auto;
-                overflow-y: auto;
-                
-            }
-            #degreeinfo{
-                background-color: cyan;
-                width: 600px;
-                height: 400px;
-                padding-left: 25px;
-                padding-right: 25px;
-                float: right;
-                overflow-x: auto;
-                overflow-y: auto;
+                font-size: 13pt;
             }
         </style>
     </head>
     <body>
-        <div id="wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
-            
-            <div>
-                <form method="post" action="" style="width:30%">
-                    <fieldset>
-                        <legend>Register</legend>
-                    Username:<input type="text" size="12" maxlength="12" name="Fname"><br/>
-                    Password:<input type="password" size="25" maxlength="25" name="Password"><br/>
-                    Confirm Password:<input type="password" size="25" maxlength="25" name="cPassword"><br/>
-                    <input type="submit" value="submit" name="submit">
-                    </fieldset>
-                </form>
-            </div>
-<?php
-} else {
-
-}
-?> 
+        <div id="page" align="center">
+            <form method="post" action="registerpage2.php" style="width:30%">
+                <fieldset>
+                    <legend>Register</legend>
+                    <input type="email" name="email" placeholder="Email" autofocus required/><br/>
+                    <!-- TODO PHP Validation of password -->
+                    <input type="password" name="password" placeholder="Password" required/><br/>
+                    <input type="password" name="cpassword" placeholder="Confirm Password" required/><br/><br/>
+                    <input type="text" name="fname" placeholder="First Name" required/><br/>
+                    <input type="text" name="lname" placeholder="Last Name" required/><br/>
+                    <input type="text" name="major" placeholder="Major" required/><br/>
+                    Year: <input style="width: 150px;" type="number" min="1" max="4" name="year" value="1"/><br/>
+                    <input type="submit" value="submit" name="Submit" align="center"/>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
