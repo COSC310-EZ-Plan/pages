@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-sessionstart();
+
 #Dummy variables for now, need to make connection to sql server and make appropriate calls to initialize the data
 $totalCred;
 $completed;
