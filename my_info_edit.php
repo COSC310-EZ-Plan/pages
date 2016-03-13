@@ -1,54 +1,16 @@
+<?php
+$YearStanding = $_POST["YearStanding"];
+$Degree = $_POST["Degree"];
+$XferCredit = $_POST["XferCredit"];
+$Interest = $_POST["Interest"];
+if (!isset($_POST['submit'])) { // if page is not submitted to itself echo the form
+?>
 <!DOCTYPE html>
-<<<<<<< HEAD
-<?php session_start(); ?>
-<html>
-    <head>
-        <title>EZ-Plan: Welcome!</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <style>
-            body
-            {
-                background-color: powderblue;
-                font-size: 14pt;
-            }
-            
-            #page
-            {
-                padding-top: 200px;
-            }
-            
-            input[type=text], input[type=password]
-            {
-                width: 230px;
-                padding: 5px 5px;
-                margin-bottom: 10px;
-                display: inline-block;
-                border: 2px solid #000;
-                border-radius: 4px;
-            }
-            
-            input[type=submit]
-            {
-                margin-top: 10px;
-                margin-left: 20px;
-                padding: 10px 20px;
-                background-color: cadetblue;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 13pt;
-=======
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<?php
-
-?>
 <html>
     <head>
         <title>TODO supply a title</title>
@@ -62,7 +24,6 @@ and open the template in the editor.
             #header{ 
                 border-style: solid;
                 width: 100%;
-				
             }
            .homebtn {
                 background-color: black;
@@ -153,29 +114,17 @@ and open the template in the editor.
                 float: right;
                 overflow-x: auto;
                 overflow-y: auto;
->>>>>>> refs/remotes/origin/master
             }
+            .reveal-if-yes {
+             opacity: 0;
+             max-height: 0;
+             overflow: hidden;
+            }
+            
         </style>
     </head>
+    
     <body>
-<<<<<<< HEAD
-        <div id="page" align="center">
-            <h1> EZ-Plan </h1>
-            <form action="login.php" method="post">
-                <input type="text" name="username" placeholder="Username"/>
-                <br/>
-                <input type="password" name="password" placeholder="Password"/>
-                <br/>
-                <div>
-                <input type="checkbox"/> Remember Me
-                <input type="submit" value="Log In"/>
-                </div>
-                <a href="registerpage.php"><br/>Need an Account? Register Here.</a>
-            </form>
-        </div>
-    </body>
-</html>
-=======
         <div id="wrapper">
             <div id = "header">
                     <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
@@ -183,49 +132,28 @@ and open the template in the editor.
                     <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
                     <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
             </div>
-            <div>
-           <h3 style="float: left; width: 50%;display:inline">UserName</h3>
-           <h3 style="float: right; width: 50%; text-align: right;">Degree Profiles</h3>
-           
-           <div class = "degdrop">
-               <span>Degree Name</span>
-               <div class = "degdropcont">
-                   <a href="#">sample</a>
-               </div>
-           </div>
-           <div> 
-                <div id="userinfo">
-<pre style = "text-align: left">
-Year Standing: 
-Current Degree: 
-Xfer Credits:
-</pre>
-                    <ul>
-                        <li>3 first year physics credits</li>
-                        <li>example 2</li>
-                        <li>example 3</li>
-                    </ul>
-                    <p>
-                    Interests
-                    </p>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-    <pre>
-if user has not filled in this info, display the discussed disclaimer.
-Section will need to auto position the edit info button at the buttom if field is empty
-    </pre>
-                    <input type="button" value = "Edit Info" onclick = "location.href = '#href'" style="margin-left: 45%;" /> 
-                </div>
-               <div id ="degreeinfo">
-                   <pre>empty for now until decided as to what should be shown. Need jscript and parsing methods</pre>
-                   <input type="button" value = "Edit Current Degree" onclick = "location.href = '#href'" style="margin-left:30%; display: inline;" />
-                   <input type="button" value = "Compare Degrees" onclick = "location.href = '#href'" style="display:inline;" />
-               </div>
-           </div>
-        </div>
-    </body>
-</html>
->>>>>>> refs/remotes/origin/master
+            
+
+                <form method="post" action="" style="width:30%">
+                    <fieldset>
+                        <legend>My Info Edit</legend>
+                        Year Standing:<input type="numbers" size="12" maxlength="2" name="YearStanding"><br/>
+                        Current Degree:<input type="text" size="12" maxlength="20" name="Degree"><br/>
+                        Do you have transfer credits? If yes then type in below the format Course/Amount or if no then leave blank:<br/>
+                        <textarea name="XferCredit" rows="8" cols="400">
+                        Ex. Cosc/3
+                        </textarea><br/>
+                        <br/>
+                        Insert tags for courses that you might be interested in seperated by ",":
+                        <textarea name="Interest" rows="8" cols="400">
+                        Ex. Cosc, computerscience, science, computer
+                        </textarea><br/>
+                        
+                        <input type="submit" value="Update" name="submit">                    
+                </form>
+            </div>
+<?php
+} else {
+
+}
+?> 
