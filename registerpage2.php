@@ -46,7 +46,7 @@
     }
     else
     {
-        header("registerpage.php");
+        header("Locatoion: registerpage.php");
         exit;
     }
 ?>
