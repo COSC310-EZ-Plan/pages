@@ -3,10 +3,10 @@
 	function getConnection()
 	{
 		//Local variables to maintain encapsulation
-		$servername = "localhost";
-		$username = "ileri";
-		$password = "ezpiLaz!";
-		$dbname = "ezplan";
+		$servername = "jdbc:mysql://cosc304.ok.ubc.ca/db_ioyedele";
+		$username = "ioyedele";
+		$password = "36547123";
+		$dbname = "db_ioyedele";
 		
 		//Create connection
         $con = new mysqli($servername, $username, $password, $dbname);
