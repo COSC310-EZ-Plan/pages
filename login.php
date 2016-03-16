@@ -14,7 +14,7 @@
 	$password = filter_input(INPUT_POST, 'password');;
 	
 	//Get connection
-    $con = getConnection();
+    	$con = getConnection();
 	
 	//query the database to see if email in use.
 	$sql = "SELECT * FROM User WHERE email = '".$email."' AND password = PASSWORD('".$password."')";
