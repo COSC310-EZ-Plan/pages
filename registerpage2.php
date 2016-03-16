@@ -2,53 +2,68 @@
 <html>
 <title>processing...</title>
 <head></head>
-<body>
+<body style="background-color: powderblue">
 <?php
     session_start();
+	require "connection.php";
     
-    $servername = "localhost";
-    $username = "ileri";
-    $password = "ezpiLaz!";
-    $dbname = "ezplan";
-    
-    $Email = filter_input(INPUT_POST, 'email');
-    $Password = filter_input(INPUT_POST, 'password');
-    $cPassword = filter_input(INPUT_POST, 'cpassword');
-    $FName = filter_input(INPUT_POST, 'fname');
-    $LName = filter_input(INPUT_POST, 'lname');
-    $Major = filter_input(INPUT_POST, 'major');
-    $Year = filter_input(INPUT_POST, 'year');
+	//User passed in variables
+    $email = filter_input(INPUT_POST, 'email');
+    $password = filter_input(INPUT_POST, 'password');
+    $cpassword = filter_input(INPUT_POST, 'cpassword');
+    $fname = filter_input(INPUT_POST, 'fname');
+    $lname = filter_input(INPUT_POST, 'lname');
+    $major = filter_input(INPUT_POST, 'major');
+    $year = filter_input(INPUT_POST, 'year');
 
-    if ($Password === $cPassword)
-    {
-        // Create connection
-        $con = new mysqli($servername, $username, $password, $dbname);
-        
-        // Check connection
-        if ($con -> connect_erroe)
-        {
-            die("Connection failed: ".$con -> connect_erroe);
-        }
-        
-        $sql = "INSERT INTO user (firstName, lastName, year, major, email, password) 
-                VALUES ('".$FName."','".$LName."',".$Year.",'".$Major."','".$Email."',PASSWORD('".$Password."'))";
-        
-        if($con -> query($sql) === TRUE)
-        {
-            echo "<h1>New record created successfully</h1>";
-        }
-        else
-        {
-            echo "<h1>Error: ".$sql."<br/>".$con->error."</h1>";
-        }
-        
-        $con->close;
-    }
-    else
-    {
-        header("Locatoion: registerpage.php");
-        exit;
-    }
+    //Get connection
+    $con = getConnection();
+	
+	//query the database to see if email in use.
+	$sql = "SELECT * FROM user WHERE email = '".$email."'";
+	$result = mysqli_query($con,$sql) or die(mysqli_error($con));
+	
+	if (!(mysqli_num_rows($result) > 0))
+	{
+		if (strcmp($password,$cpassword) === 0)
+		{
+			//sql query
+			$sql = "INSERT INTO User ". 
+				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
+				   ",PASSWORD('".$password."'))";
+			
+			//query execution and handling
+			if($con -> query($sql) === TRUE)
+			{
+				//set session items for user to be used throughout website
+				$_SESSION["fname"] = $fname;
+				$_SESSION["lname"] = $lname;
+				$_SESSION["email"] = $email;
+				
+				//set authorization cookie
+				setcookie("auth", "1", time()+60*30, "/", "", 0);
+				
+				header("Location: home_page.php");
+				exit;
+			}
+			else
+			{
+				echo "<h1>Error: ".$sql."<br/>".$con->error."</h1>";
+			}
+			
+			$con->close;
+		}
+		else
+		{
+			echo "<h1>Your passwords do not match.</h1>";
+			echo "<a href='registerpage.php'>back</a>";
+		}
+	}
+	else
+	{
+		echo "<h1>Sorry, this email has alredy been used.</h1>";
+		echo "<a href='registerpage.php'>back</a>";
+	}
 ?>
 </body>
 </html>
