@@ -32,6 +32,7 @@ and open the template in the editor.
                 
   
             }
+            
            
             .myinfobtn {
                 background-color: black;
@@ -101,6 +102,11 @@ and open the template in the editor.
                 margin:0px;
                 padding:0px;
             }
+            form{
+                position: fixed;
+                top: 50%;
+                left:50%;
+            }
            
         </style>
     </head>
@@ -112,65 +118,13 @@ and open the template in the editor.
                     <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
                     <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
             </div>
-            <div>
-                <table>
-                    <caption>
-                        <div style ="display: inline-block; clear:both; float:right;">
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                            <input style = "width:25%" id ='search' placeholder ='search'>
-                         </div>
-                    </caption>
-                    <tr style = "border-right: solid">
-                        <th style = "line-height: 50px; border-right: solid; overflow-y: auto;">
-                            <ul class = "hide">
-                                <li><a href ="#href"> Course 1</a></li>
-                                <li><a href ="#href"> Course 2</a></li>
-                                <li><a href ="#href"> Course 3</a></li>
-                                <li><a href ="#href"> Course 4</a></li>
-                                <li><a href ="#href"> Course 5</a></li>
-                            </ul>
-                        </th>
-                        <th style = "overflow-y: auto;">
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px; vertical-align: top; font-size:20px;"><b><u>Course Info</u> </b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> Title:  </b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> Description:  </b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> Credits:  </b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> Pre-reqs:</b></p>
-                                <ul>
-                                    <li>PR-A</li>
-                                    <li>PR-B</li>
-                                </ul>
-                            </div>
-                        </th>
-                    </tr>
-                </table>
-                </div>
+               
+            <form name = "form1" method="post" action="searchresults.php">
+                <input name ="search" type="text" size="40" maxlength="50" />
+                <input type="submit" name="Submit" value="Search" />
+               
+            </form>
+                
             </div>
         
     </body>
