@@ -1,3 +1,5 @@
+<?php
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -118,48 +120,35 @@ and open the template in the editor.
                     <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
                     <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
             </div>
+            
             <div>
-           <h3 style="float: left; width: 50%;display:inline">UserName</h3>
-           <h3 style="float: right; width: 50%; text-align: right;">Degree Profiles</h3>
-           
-           <div class = "degdrop">
-               <span>Degree Name</span>
-               <div class = "degdropcont">
-                   <a href="#">sample</a>
-               </div>
-           </div>
-           <div> 
-                <div id="userinfo">
-<pre style = "text-align: left">
-Year Standing: 
-Current Degree: 
-Xfer Credits:
-</pre>
-                    <ul>
-                        <li>3 first year physics credits</li>
-                        <li>example 2</li>
-                        <li>example 3</li>
-                    </ul>
-                    <p>
-                    Interests
-                    </p>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-    <pre>
-if user has not filled in this info, display the discussed disclaimer.
-Section will need to auto position the edit info button at the buttom if field is empty
-    </pre>
-                    <input type="button" value = "Edit Info" onclick = "location.href = '#href'" style="margin-left: 45%;" /> 
-                </div>
-               <div id ="degreeinfo">
-                   <pre>empty for now until decided as to what should be shown. Need jscript and parsing methods</pre>
-                   <input type="button" value = "Edit Current Degree" onclick = "location.href = '#href'" style="margin-left:30%; display: inline;" />
-                   <input type="button" value = "Compare Degrees" onclick = "location.href = '#href'" style="display:inline;" />
-               </div>
-           </div>
-        </div>
-    </body>
-</html>
+                <form method="post" action="" style="width:30%">
+                    <fieldset>
+                        <legend>My Schedule</legend>
+                        Year standing:<select name="Year Standing" onchange="if (this.selectedIndex) getCourseByYear();">
+                            <option value="1st year">1</option>
+                            <option value="2nd year">2</option>
+                            <option value="3rd year">3</option>
+                            <option value="4th year">4</option>
+                            <option value="Greater than 4">>4</option>
+                        </select><br/>
+                        
+                        
+                        Current degree selected: <select name="Degree" onchange="if (this.selectedIndex) getDegreeSchedule();">
+                            <option value="Computer Science Degree">Computer Science Degree</option>
+                            <option value="Chemistry Degree">Chemistry Degree</option>
+                        </select><br/>
+                        
+                        Required Courses:<textarea name="Courses" rows="8" cols="400">
+                        Required courses shows up here
+                        </textarea><br/>
+                        
+                        Electives Courses:<textarea name="Courses" rows="8" cols="400">
+                        Possible elective courses shows up here
+                        </textarea><br/>                        
+                     
+                        
+                    </fieldset>
+                </form>
+            </div>
+ 
