@@ -1,23 +1,9 @@
 <?php
-/*
-// Create connection
-$mysqli = mysqli_connect("localhost", "", "", "");
-// Check connection
-if ($mysqli->connect_error) {
-    die("Connection failed: " .$mysqli->connect_error);
-} 
-
-*/
-//$user_info = $fetch_user_info($_SESSION['uid']);
-
 $YearStanding = $_POST["YearStanding"];
-$DegNam = $_POST["DegNam"];
-$xferCred = $_POST["xferCred"];
-$Interest = $_POST["intrests"];
-
-if (isset($_POST['submit'])) { 
-// if page is submitted to itself echo the form
-}
+$Degree = $_POST["Degree"];
+$XferCredit = $_POST["XferCredit"];
+$Interest = $_POST["Interest"];
+if (!isset($_POST['submit'])) { // if page is not submitted to itself echo the form
 ?>
 <!DOCTYPE html>
 <!--
@@ -135,9 +121,6 @@ and open the template in the editor.
              overflow: hidden;
             }
             
-
-            
-            
         </style>
     </head>
     
@@ -150,29 +133,27 @@ and open the template in the editor.
                     <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
             </div>
             
-            <div>
+
                 <form method="post" action="" style="width:30%">
                     <fieldset>
                         <legend>My Info Edit</legend>
-                        <label>Year Standing:</label><br>
-                        <input type="numbers" class="year-standing-checker" name="YearStanding" value="" size="25" maxlength="2" tabindex="1">
-                        <br><br>
-                        
-                        <label>Current Degree:</label><br>
-                        <input type="text" class="cur-degree-checker" name="DegNam" value="" size="25" maxlength="20">
-                        <br><br>
-                        
-                        Do you have transfer credits? If yes then type in below the format Course/Amount or if no then leave blank:
-                        <br>
-                        <textarea name="xferCred" value="" rows="8" cols="100"></textarea><br>
-                        <br>
+                        Year Standing:<input type="numbers" size="12" maxlength="2" name="YearStanding"><br/>
+                        Current Degree:<input type="text" size="12" maxlength="20" name="Degree"><br/>
+                        Do you have transfer credits? If yes then type in below the format Course/Amount or if no then leave blank:<br/>
+                        <textarea name="XferCredit" rows="8" cols="400">
+                        Ex. Cosc/3
+                        </textarea><br/>
+                        <br/>
                         Insert tags for courses that you might be interested in seperated by ",":
-                        <br>                        
-                        <textarea name="interest" value="" rows="8" cols="100"></textarea><br>
+                        <textarea name="Interest" rows="8" cols="400">
+                        Ex. Cosc, computerscience, science, computer
+                        </textarea><br/>
                         
-                        <input type="submit" value="Update" name="submit"><br>
-                        <a href="home_page.php"><h5>Return to profile</h5></a>
-                    </fieldset>
+                        <input type="submit" value="Update" name="submit">                    
                 </form>
             </div>
-            </div>
+<?php
+} else {
+
+}
+?> 
