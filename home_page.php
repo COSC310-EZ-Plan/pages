@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <?php
+session_start();
+require "connection.php";
 
+if (filter_input (INPUT_COOKIE, 'auth') != "1")
+{
+	header("Location: index.php");
+	exit;
+}
+
+$fname = $_SESSION["fname"];
+$lname = $_SESSION["lname"];
+$email = $_SESSION["email"];
 
 $totalCred;
 $completed;
@@ -155,12 +161,12 @@ $displayE = "<div><p>Elective Courses:</p>
             <div style = "display: inline-block;">
                 <div id ="userinfo">
                     <div id ="userheader">
-                        <h3>Username</h3>
+                        <h3>Hello <?php echo $fname ?></h3>
                     </div>
                     <pre>
-Year Standing: 
-Current Degree:
-Xfer Credits:
+						Year Standing: 
+						Current Degree:
+						Xfer Credits:
                     </pre>
                     <ul>
                         <li>xfer 1</li>
@@ -192,14 +198,14 @@ Xfer Credits:
                         <td>
                             <div><p style = "font-size: 20px; text-align:center;"><b><?php echo $DegName ?></b></p></div>
                             <div><pre>
-Total Credits:
-Remaining:
+								Total Credits:
+								Remaining:
                             </pre></div>
                             <?php echo $displayR ?>
                             <?php echo $displayE ?>
                         </td>
                     </tr>
-                </table>
+					</table>
                 </div>
             </div>
         </div>
