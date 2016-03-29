@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -6,12 +7,10 @@ and open the template in the editor.
 -->
 <?php
 session_start();
-
-//$con = mysqli_connect();
-//if(mysqli_connect_errno()){
-//printf("Connection to database failed");
-//exit();
-//}else{ 
+require "connection.php";
+require "listDeg.php";
+//$uid = getId($_SESSION["email"]);
+$conn = getConnection();
 $count = 0;
 #Dummy variables for now, need to make connection to sql server and make appropriate calls to initialize the data
 $totalCred1;
@@ -149,7 +148,24 @@ $displayE3 = "<div><p>Elective Courses:</p>"
                 height: 0px;
                 border-style: hidden;
             }
-        </style>  
+        </style>
+        <script>
+            function sendUpdateField(value){
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+                    }
+                };
+                xhttp.open("POST", "update.asp", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send(value);
+            }
+            
+            function update(){
+                this.value = xhttp.responseText; //right???
+            }
+        </script>
     </head>
     <body>
         <!-- Header -->
@@ -159,6 +175,7 @@ $displayE3 = "<div><p>Elective Courses:</p>"
                     <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
                     <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
                     <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
+                    <?php listDeg(5); ?> <!-- change to correct param once database is set -->
             </div>
             <!-- End header -->
             <div id = "content1" style = "display: none;">
@@ -329,3 +346,4 @@ Remaining:
         </script>
     </body>
 </html>
+
