@@ -20,7 +20,7 @@
     $con = getConnection();
 	
 	//query the database to see if email in use.
-	$sql = "SELECT * FROM user WHERE email = '".$email."'";
+	$sql = "SELECT * FROM User WHERE email = '".$email."'";
 	$result = mysqli_query($con,$sql) or die(mysqli_error($con));
 	
 	if (!(mysqli_num_rows($result) > 0))
@@ -28,9 +28,9 @@
 		if (strcmp($password,$cpassword) === 0)
 		{
 			//sql query
-			$sql = "INSERT INTO User ". 
-				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
-				   ",PASSWORD('".$password."'))";
+			$sql = "INSERT INTO User (fname, lname, year, umajor, email, password) ". 
+ 				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
+ 				   ",PASSWORD('".$password."'))";
 			
 			//query execution and handling
 			if($con -> query($sql) === TRUE)
@@ -56,12 +56,12 @@
 		else
 		{
 			echo "<h1>Your passwords do not match.</h1>";
-			echo "<a href='registerpage.php'>back</a>";
+			echo "<a href='registerpage.php'>Back</a>";
 		}
 	}
 	else
 	{
-		echo "<h1>Sorry, this email has alredy been used.</h1>";
+		echo "<h1>Sorry, this email has already been used.</h1>";
 		echo "<a href='registerpage.php'>back</a>";
 	}
 ?>
