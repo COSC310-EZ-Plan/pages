@@ -1,37 +1,56 @@
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <?php
-session_start();
-require "connection.php";
 
-if (filter_input (INPUT_COOKIE, 'auth') != "1")
-{
-	header("Location: index.php");
-	exit;
+
+$name = "test";
+$year = "test1";
+$major = "test2";
+$currentcred = 30; //test
+$requiredcred = 120; //test
+$remaining = $requiredcred - $currentcred;
+//DATABASE STUFF BELOW
+/*
+$conn = mysqli_connect("cosc304.ok.ubc.ca/db_ioyedele", "ioyedele", "36547123", "EZPLAN?");
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
 }
+ 
 
-$fname = $_SESSION["fname"];
-$lname = $_SESSION["lname"];
-$email = $_SESSION["email"];
-
-$totalCred;
-$completed;
-$remain = total - completed;
-$DegName = "Test";
-$reqC = "<li>Course 1</li>
-        <li>Course 2</li>";
-$elecC = "<li>Course 1</li>
-        <li>Course 2</li>";
-$displayR = "<div><p>Required Courses:</p>
-        <ul>".
-        "$reqC".
-        "</ul>
-        </div>";
-$displayE = "<div><p>Elective Courses:</p>
-        <ul>".
-        "$elecC".
-        "</ul>
-        </div>"; 
-
+//GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
+$sql = "SELECT* FROM User where uid = $uid";
+$res = $conn->query($sql);
+    if($res){
+       while ($row = mysqli_fetch_array($res)){
+           $name = $row["fname"] + " " + $row["lastname"];
+           $major = $row["umajor"];
+           $year = $row["year"];
+       }
+    }else{
+        echo "NO RESULTS.";
+    }
+$sql2 = "SELECT* FROM UserCourse where uid = $uid";
+$res2 = $conn->query($sql2);
+    if($res2){
+       while ($row = mysqli_fetch_array($res2)){
+           $cc = $row["cname"];
+           $sql3 = "SELECT *insert credit thingy here* FROM Course where cname = $cc";
+           $res3 = $conn->query($sql3);
+           if(is_numeric($res3)){
+              $currentcred += $res3;
+           }else{
+               echo "NO RESULTS.";
+           }
+       }
+    }else{
+        echo "NO RESULTS.";
+    }
+*/
 ?>
 <html>
     <head>
@@ -161,23 +180,14 @@ $displayE = "<div><p>Elective Courses:</p>
             <div style = "display: inline-block;">
                 <div id ="userinfo">
                     <div id ="userheader">
-                        <h3>Hello <?php echo $fname ?></h3>
+                        <h3><?php echo $name; ?></h3>
                     </div>
-                    <pre>
-						Year Standing: 
-						Current Degree:
-						Xfer Credits:
-                    </pre>
-                    <ul>
-                        <li>xfer 1</li>
-                        <li>xfer 2</li>
-                        <li>xfer 3</li>
-                    </ul>
-                    <p style = "text-align: left">Interests</p>
-                    <ul>
-                        <li>Interest 1</li>
-                        <li>Interest 1</li>
-                    </ul>
+                    <p style = "left:0">
+                    Year Standing: <?php echo $year; ?>
+                    </p></br>
+                    <p style = "left:0">
+                    Current Degree: <?php echo $major; ?>
+                    </p>
                     <form name="edit info" action = "#href">
                         <input type="submit" value ="edit info" style ="position:relative; top: 10px; left:250px;"/> 
                     </div>
@@ -187,7 +197,7 @@ $displayE = "<div><p>Elective Courses:</p>
                     <div id ="degreeheader" style = "display: inline-block;">
                         <h3>Degree Profiles</h3>
                         <div class = "degdrop">
-                            <span>Degree Name</span>
+                            <span>Degree Overview</span>
                             <div class = "degdropcont">
                                 <a href="#">sample</a>
                             </div>
@@ -196,16 +206,23 @@ $displayE = "<div><p>Elective Courses:</p>
                     <table id = "breakdown">
                     <tr>
                         <td>
-                            <div><p style = "font-size: 20px; text-align:center;"><b><?php echo $DegName ?></b></p></div>
-                            <div><pre>
-								Total Credits:
-								Remaining:
-                            </pre></div>
+                            <div><p style = "font-size: 20px; text-align:center;"><b><?php echo $major ?></b></p></div>
+                            <div>
+                                <p style = "left:0">
+                                Total Credits Required: <?php echo $requiredcred; ?>
+                                </p>
+                                <p style = "left:0">
+                                Current Credits: <?php echo $currentcred; ?>
+                                </p>
+                                <p style = "left:0">
+                                Remaining Credits: <?php echo $requiredcred; ?>
+                                </p> 
+                            </div>
                             <?php echo $displayR ?>
                             <?php echo $displayE ?>
                         </td>
                     </tr>
-					</table>
+                </table>
                 </div>
             </div>
         </div>
