@@ -14,7 +14,7 @@
         //Check connection
         if ($con -> connect_error)
         {
-            die("Connection failed: ".$con -> connect_erroe);
+            die("Connection failed: ".$con -> connect_error);
         }
 		
 		return $con;
