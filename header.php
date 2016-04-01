@@ -78,7 +78,7 @@
     <body>
         <div id="header">
             <div>
-                <header><center><img src="http://i.imgur.com/7VaeO8k.png" style="width:155;height:70;"></center></header>
+                <header><center><img src="http://i.imgur.com/GR7Zect.png" style="width:349.5;height:105;"></center></header>
             </div>
             <div>
                 <nav>
@@ -86,7 +86,7 @@
                         <li><a href="home_page.php">Home</a></li>
                         <li><a href="my_info_edit.php">My Information</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropbtn">Degree</a>
+                            <a href="" class="dropbtn">Degree</a>
                             <div class="dropdown-content">
                                 <a href="Compare_page.php">Compare Degrees</a>
                                 <a href="my_schedule_page.php">Schedule Plan</a>
