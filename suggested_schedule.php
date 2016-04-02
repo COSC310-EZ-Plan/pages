@@ -7,11 +7,11 @@ include "connection.php";
 
 // Set up connection; redirect to log in if cannot connect or not logged in
 if (filter_input(INPUT_COOKIE, "auth") != 1) {
-    header("Location: login.php");
+    header("Location: index.php");
 }
 $mysqli = getConnection();
 if ($mysqli == NULL) {
-    header("Location: login.php");
+    header("Location: index.php");
 }
 ?>
 
@@ -28,8 +28,13 @@ if ($mysqli == NULL) {
             td.course {
                 width:80%;
             }
-            td.coursebtn {
-                min-width:10%;
+            td.dviewbtn {
+                width:10%;
+            }
+            span.reqdesc {
+                font-style: italic;
+                color: #999;
+                font-size: small;
             }
         </style>
     </head>
@@ -91,14 +96,15 @@ echo "<h1>Recommended Courses for:</h1>"
 
 // First section: currently planned courses for user (delete option available)
 echo "<h3>Current Plans:</h3><table class='courselist'>";
+// Results already available from earlier query
 foreach ($rows_dview as $row_dview) {
     $cname = $row_dview["cname"];
     ?>
     <tr>
         <td class="course"><?php courselink($cname); ?></td>
-        <td class="coursebtn"><?php dview_del_btn($uid, $major, $cname); ?></td>
+        <td class="dviewbtn"><?php dview_del_btn($uid, $major, $cname); ?></td>
     </tr>
-        <?php
+    <?php
 }
 
 echo "</table>";
@@ -106,10 +112,58 @@ echo "</table>";
 
 // Second section: all required courses for that degree
 echo "<h3>Required Courses:</h3><table class='courselist'>";
-
-// TODO
-echo "<tr><td>TODO</td></tr>";
-
+$sql_getreqs = "SELECT * FROM CourseRequirement "
+        . "WHERE degree = '$major'";
+$result_getreqs = mysqli_query($mysqli, $sql_getreqs);
+$rows_reqs = mysqli_fetch_all($result_getreqs, MYSQLI_ASSOC);
+$cnum = 0;
+foreach ($rows_reqs as $row_req) {
+    $cnum++;
+    $rdesc = $row_req["description"];
+    // Only output a course in this section if not electives
+    if (stristr($rdesc, 'elective') === false) {
+        // Find courses that match this condition
+        $req_condition = $row_req["cond"];
+        $sql_getcourse = "SELECT * FROM Course WHERE $req_condition";
+        $result_getcourse = mysqli_query($mysqli, $sql_getcourse);
+        $rows_course = mysqli_fetch_all($result_getcourse, MYSQLI_ASSOC);
+        // Fetch and display the first course in the list
+        $index = 0;
+        $row_course = $rows_course[$index];
+        $cname = $row_course["cname"];
+        $cspanid = "".$cnum."_".$index;
+        
+        ?>
+    <tr>
+        <td class="course">
+            <?php echo "<span id='$cspanid'>"; courselink($cname); echo "</span><br>"
+            . "<span class='reqdesc'>Requirement: '$rdesc'</span>"; ?>
+        </td>
+        <td class="dviewbtn">
+            <?php dview_save_btn($uid, $major, $cname); ?>
+        </td>
+        <?php if (mysqli_num_rows($result_getcourse) > 1) { // Option to "cycle through" if don't want this course ?>
+        <td class="dviewbtn">
+            <?php dview_next_btn($cspanid, $rows_course, $index); ?>
+        </td>
+        <?php } ?>
+    </tr>
+        <?php
+    } // end of case if non-elective course
+    else {
+        $numcredits = $row_req["credits"];
+        ?>
+    <tr>
+        <td class="course">
+            <br>
+            <?php echo "$numcredits credits of: <br>"
+            . "<span class='reqdesc'>'$rdesc'</span>"; 
+            // Is it worth giving options here as well? ?>
+        </td>
+    </tr>
+        <?php
+    }
+}
 echo "</table>";
 
 // Third section: electives based off user's interests
@@ -127,23 +181,39 @@ echo "</table></br>";
 <?php 
 
 function courselink($cname) {
-    // Dummy for now
+    // Just echo the variable, for now
     echo $cname;
 }
 
 function dview_save($uid, $dmajor, $cname) {
+    // eventually, delete course from user's plan using AJAX if present
     echo "";
 }
 function dview_del($uid, $dmajor, $cname) {
+    // eventually, add course to user's plan using AJAX if not present
     echo "";
 }
+function dview_next($spanid, $options, &$pos) {
+    // Eventually, update div with next course in list (or loop to start) using AJAX
+    if ($pos < count($options)) {
+        $pos++;
+    }
+    else {
+        $pos = 0;
+    }
+    // TODO: update contents of "spanid" to be courselink of the course named at the new index
+}
 function dview_save_btn($uid, $dmajor, $cname) {
-    // Dummy for now
+    // Dummy for now; eventually, reference dview_save function
     echo "<button>Save</button>";
 }
 function dview_del_btn($uid, $dmajor, $cname) {
-    // Dummy for now
+    // Dummy for now; eventually reference dview_del function
     echo "<button>Delete</button>";
+}
+function dview_next_btn($spanid, $options, &$pos) {
+    // Dummy for now; eventually, reference dview_next function
+    echo "<button>Next Option</button>";
 }
 
 ?>
