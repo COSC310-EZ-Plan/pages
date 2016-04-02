@@ -29,8 +29,8 @@
 		{
 			//sql query
 			$sql = "INSERT INTO User (fname, lname, year, umajor, email, password) ". 
- 				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
- 				   ",PASSWORD('".$password."'))";
+				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
+				   ",PASSWORD('".$password."'))";
 			
 			//query execution and handling
 			if($con -> query($sql) === TRUE)
