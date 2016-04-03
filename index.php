@@ -5,18 +5,17 @@
         <title>EZ-Plan: Welcome!</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
             body
             {
-                background-color: powderblue;
                 font-size: 14pt;
             }
             
             #page
             {
-				width: 100%;
-                padding-top: 15%;
+		width: 100%;
+                padding-top: 10%;
             }
             
             input[type=text], input[type=password]
@@ -32,7 +31,6 @@
             input[type=submit]
             {
                 margin-top: 10px;
-                margin-left: 20px;
                 padding: 10px 20px;
                 background-color: cadetblue;
                 color: white;
@@ -40,6 +38,17 @@
                 border-radius: 4px;
                 cursor: pointer;
                 font-size: 13pt;
+            }
+            
+            form
+            {
+                background-color: white;
+                width: 20%;
+                padding: 20px;
+                border-style: solid;
+                border-width: 1px;
+                border-radius: 4px;
+                border-color: grey;
             }
         </style>
     </head>
@@ -52,8 +61,7 @@
                 <input type="password" name="password" placeholder="Password"/>
                 <br/>
                 <div>
-                <input type="checkbox"/> Remember Me
-                <input type="submit" value="Log In"/>
+                <input style="width: 100%;" type="submit" value="Log In"/>
                 </div>
                 <a href="registerpage.php"><br/>Need an Account? Register Here.</a>
             </form>

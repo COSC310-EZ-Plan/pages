@@ -9,6 +9,7 @@
 <title>validating...</title>
 </head>
 <body>
+    <h1>If you can see this something went wrong. Please go back and try again.</h1>
 <?php
 	//User passed in variables
 	$email = filter_input(INPUT_POST, 'email');

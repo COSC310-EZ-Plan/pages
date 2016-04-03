@@ -19,7 +19,7 @@
                         <li><a href="home_page.php">Home</a></li>
                         <li><a href="my_info_edit.php">My Information</a></li>
                         <li class="dropdown">
-                            <a href="" class="dropbtn">Degree</a>
+                            <a href="edit_degree_page.php" class="dropbtn">Degree</a>
                             <div class="dropdown-content">
                                 <a href="Compare_page.php">Compare Degrees</a>
                                 <a href="my_schedule_page.php">Schedule Plan</a>

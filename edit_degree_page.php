@@ -9,10 +9,12 @@ include "header.php";
 // Set up connection; redirect to log in if cannot connect or not logged in
 if (filter_input(INPUT_COOKIE, "auth") != 1) {
     header("Location: index.php");
+    exit;
 }
 $mysqli = getConnection();
 if ($mysqli == NULL) {
     header("Location: index.php");
+    exit;
 }
 ?>
 
@@ -20,7 +22,7 @@ if ($mysqli == NULL) {
     <head>
         <meta charset="UTF-8">
         <title>Degree Edit</title>
-        <link rel="stylesheet" type="text/css" href="header.css">
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
             table.courselist 
             {
