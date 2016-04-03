@@ -4,6 +4,7 @@
 <head></head>
 <body style="background-color: powderblue">
 <?php
+	// Set up session and database connection
     session_start();
 	require "connection.php";
     
@@ -32,13 +33,27 @@
 				   "VALUES ('".$fname."','".$lname."',".$year.",'".$major."','".$email."'".
 				   ",PASSWORD('".$password."'))";
 			
-			//query execution and handling
+			//query execution and error handling
 			if($con -> query($sql) === TRUE)
 			{
+				//finding the userid of added user
+				$sql = "SELECT uid FROM User WHERE email = '".$email."'";
+				$result = mysqli_query($con,$sql) or die(mysqli_error($con));
+				
+				if (mysqli_num_rows($result) == 1)
+				{
+					//get the uid of the user
+					while ($info = mysqli_fetch_array($result)) 
+					{
+						$uid = stripslashes($info['uid']);
+					}
+				}
+				
 				//set session items for user to be used throughout website
 				$_SESSION["fname"] = $fname;
 				$_SESSION["lname"] = $lname;
 				$_SESSION["email"] = $email;
+				$_SESSION["uid"] = $uid;
 				
 				//set authorization cookie
 				setcookie("auth", "1", time()+60*30, "/", "", 0);
@@ -62,7 +77,7 @@
 	else
 	{
 		echo "<h1>Sorry, this email has already been used.</h1>";
-		echo "<a href='registerpage.php'>back</a>";
+		echo "<a href='registerpage.php'>Back</a>";
 	}
 ?>
 </body>

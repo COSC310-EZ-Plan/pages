@@ -5,10 +5,8 @@
         </style>
     </head>
     <body>
-
-
         <footer>
-            Copyright
+            &copy; 2016 EZ-Plan
         </footer>
     </body>
 </html>
