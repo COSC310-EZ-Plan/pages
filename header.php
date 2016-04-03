@@ -1,11 +1,3 @@
-<?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
-
 <html>
     <head>
         <style>
@@ -44,19 +36,19 @@
     <body>
         <div id="header">
             <div>
-                <header><center><img src="http://i.imgur.com/7VaeO8k.png" style="width:155;height:70;"></center></header>
+                <header><img src="http://i.imgur.com/7VaeO8k.png" style="width:155px;height:70px;"></header>
             </div>
             <div>
                 <nav>
                     <ul id="navigationbar">
                         <li><a href="home_page.php">Home</a></li>
                         <li><a href="my_info_edit.php">My Information</a></li>
-                        <li><a href="my_schedule_page.php">My Schedules</a></li>
+                        <li><a href="edit_degree_page.php">My Schedules</a></li>
                         
 
                         <li><a href="course_browser.php">View Courses</a></li>
 
-                        <li style="float:right"><a href="index.php">Logout</a></li>
+                        <li style="float:right"><a href="logout.php">Logout</a></li>
                     </ul>
                 </nav>    
             </div>    

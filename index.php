@@ -15,7 +15,8 @@
             
             #page
             {
-                padding-top: 200px;
+				width: 100%;
+                padding-top: 15%;
             }
             
             input[type=text], input[type=password]
@@ -44,7 +45,7 @@
     </head>
     <body>
         <div id="page" align="center">
-            <h1> EZ-Plan </h1>
+            <img src="http://i.imgur.com/7VaeO8k.png" style="margin-bottom: 10px;">
             <form action="login.php" method="post">
                 <input type="text" name="email" placeholder="Email" autofocus/>
                 <br/>

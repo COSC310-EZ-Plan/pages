@@ -8,17 +8,14 @@
                 text-align:center;
                 padding:5px;
                 bottom: 0;
-                position: absolute;
                 width: 100%;
                 overflow: hidden;
             }
         </style>
     </head>
     <body>
-
-
         <footer>
-            Copyright
+            &copy; 2016 EZ-Plan
         </footer>
     </body>
 </html>

@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<?php session_start(); ?>
+<?php 
+	// Set up session and database connection
+	session_start();
+	require "connection.php";
+?>
 <html>
     <head>
-        <title>Sign up</title>
+        <title>Register</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -15,11 +19,13 @@
             
             #page
             {
-                padding-top: 200px;
+                width: 100%;
+                padding-top: 15%;
             }
             
             input[type=text], input[type=password], 
-            input[type=email], input[type=number]
+            input[type=email], input[type=number],
+			select
             {
                 width: 230px;
                 padding: 5px 5px;
@@ -31,6 +37,8 @@
             
             input[type=submit]
             {
+				margin-top: 20px;
+				width: 100%;
                 padding: 10px 20px;
                 background-color: cadetblue;
                 color: white;
@@ -52,8 +60,14 @@
                     <input type="password" name="cpassword" placeholder="Confirm Password" required/><br/><br/>
                     <input type="text" name="fname" placeholder="First Name" required/><br/>
                     <input type="text" name="lname" placeholder="Last Name" required/><br/>
-                    <input type="text" name="major" placeholder="Major" required/><br/>
-                    Year: <input style="width: 150px;" type="number" min="1" max="4" name="year" value="1"/><br/>
+                    <!-- This select section realy should be gotten from the database (select degree(unique) from degreetype) -->
+					<!-- however for time purposes this is hard coded in. -->
+					Degree: <br/>
+					<select style="width: 300px" name="major">
+						<option value="Bachelor of Science, Major in Computer Science" selected>Bachelor of Science, Major in Computer Science</option>
+					</select><br/>
+                    Year: <br/>
+					<input style="width: 100px;" type="number" min="1" max="5" name="year" value="1"/><br/>
                     <input type="submit" value="submit" name="Submit" align="center"/>
                 </fieldset>
             </form>

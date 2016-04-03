@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php 
+	// Set up session and database connection
 	session_start(); 
 	require "connection.php";
 ?>
@@ -30,12 +31,15 @@
 		{
 			$fname = stripslashes($info['fname']);
 			$lname = stripslashes($info['lname']);
+			$email = stripslashes($info['email']);
+			$uid = stripslashes($info['uid']);
 		}
 		
 		//set session items for user to be used throughout website
 		$_SESSION["fname"] = $fname;
 		$_SESSION["lname"] = $lname;
 		$_SESSION["email"] = $email;
+		$_SESSION["uid"] = $uid;
 				
 		//set authorization cookie
 		setcookie("auth", "1", time()+60*30, "/", "", 0);
