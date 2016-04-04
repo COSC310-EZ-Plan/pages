@@ -7,7 +7,6 @@ and open the template in the editor.
 <?php
 session_start();
 require 'connection.php';
-include 'header.php';
 
 // Set up connection; redirect to log in if cannot connect or not logged in
 if (filter_input(INPUT_COOKIE, "auth") != 1) {
@@ -123,6 +122,7 @@ $res2 = $conn->query($sql2);
         </style>
     </head>
     <body>
+        <?php include 'header.php'; ?>
         <div id="wrapper">
             <div style = "display: inline-block;">
                 <div id ="userinfo">
@@ -173,6 +173,6 @@ $res2 = $conn->query($sql2);
                 </div>
             </div>
         </div>
+        <?php include 'footer.php'; ?>
     </body>
 </html>
-<?php include 'footer.php'; ?>
