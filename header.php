@@ -11,7 +11,7 @@
     <body>
         <div id="header">
             <div>
-                <header><img src="http://i.imgur.com/7VaeO8k.png" style="width:349.5;height:105;"></header>
+                <header><img src="http://i.imgur.com/7VaeO8k.png" style="width:155px;"></header>
             </div>
             <div>
                 <nav>
