@@ -26,8 +26,8 @@
             input[type=email], input[type=number],
             select
             {
-                width: 230px;
-                padding: 5px 5px;
+                width: 90%;
+                padding: 5px;
                 margin-bottom: 10px;
                 display: inline-block;
                 border: 2px solid #000;
@@ -72,7 +72,7 @@
                 <!-- This select section realy should be gotten from the database (select degree(unique) from degreetype) -->
                 <!-- however for time purposes this is hard coded in. -->
                 Degree: <br/>
-                <select style="width: 300px" name="major">
+                <select name="major">
                     <option value="Bachelor of Science, Major in Computer Science" selected>Bachelor of Science, Major in Computer Science</option>
                 </select><br/>
                 Year: <br/>
