@@ -1,165 +1,186 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<?php
+session_start();
+require "connection.php";
+$uid = $_SESSION["uid"];
+$email = $_SESSION["email"];
+//$email = "jdoe@gmail.com"; //test
+$name; //john doe
+$year; //1
+$degree;
+$major; //compsci
+$currentcred = 0; 
+$requiredcred; 
+$remaining = $requiredcred - $currentcred;
+//DATABASE STUFF BELOW
+
+$conn = getConnection();
+//GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
+$sql = "SELECT* FROM User where email= '$email'";
+$res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+if(mysqli_num_rows($res) < 1){
+    header ("Location: index.php"); // This user is not recognized so kick back to landing page.
+    exit; 
+}
+else{
+    while ($row = mysqli_fetch_array($res)) 
+	{
+		$name = stripslashes($row['fname'])." ".stripslashes($row['lname']);
+		$year = stripslashes($row['year']);
+		$degree = stripslashes($row['umajor']);
+		$email = stripslashes($row['email']);
+                $uid = stripslashes($row['uid']);
+	}
+    $res -> free();
+}
+$major = substr($degree,strpos($degree,",")+2);
+//echo "Query:".$year.",".$name.",",$major.",".$uid; //test echo
+$sql2 = "SELECT* FROM UserCourse where uid = '$uid'";   
+$res2 = mysqli_query($conn,$sql2) or die(mysqli_error($conn));  //get users courses
+if(mysqli_num_rows($res2) > 0){
+    while ($row = mysqli_fetch_array($res2)){   //counting credits based off each course in userCourse
+           $cc = $row["cname"];
+           $sql3 = "SELECT credits FROM Course where cname = '$cc'";
+           $res3 = mysqli_query($conn,$sql3) or die(mysqli_error($conn));
+           if(mysqli_num_rows($res2) < 1){
+                echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistant database.
+           }
+           else{
+               while ($row = mysqli_fetch_array($res3)){
+                   $currentcred += $row['credits'];
+               }
+           }
+	}
+    $res2 -> free();
+    $res3 -> free();
+}
+$sql4 = "SELECT mincredits FROM DegreeType where degree = '$degree'";
+$res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));
+if(mysqli_num_rows($res4) < 1){
+    echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistant database.
+}
+else{
+    while($row = mysqli_fetch_array($res4)){
+        $requiredcred = $row['mincredits'];
+    }
+    $res4 -> free();
+}
+//echo $requiredcred; //test echo
+?>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Compare</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
-            html, body, #wrapper{ 
-                height: 100%;
+            table,th,tr,td{
+                z-index: -10;
             }
-            #header{ 
-                border-style: solid;
+            th{
+                border-style: hidden;
+            }
+            tr,td{
+                border-style: hidden;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            table{
+                border-style: ridge;
+                border-color: powderblue;
+                border-width: 5px;
+            }
+            #wrapper{
+                position: relative;
                 width: 100%;
             }
-           .homebtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 20px;
-                display: inline-block;
-                border-radius: 50%;
-                
-  
-            }
-           
-            .myinfobtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 15px;
-                display: inline-block;
-                
-                
-            }
-            
-            .myschedbtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                display: inline-block;
-                
-                
-            }
-            
-            .coursebtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                display: inline-block;
-                
-                
-            }
-            .degdrop{
-                position: relative;
-                display: inline-block;
-                border: solid;
-                cursor: pointer;
-                display: inline-block;
-                
-            }
-            .degdropcont{
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 100px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                padding-left:6px;
-            }
-            .degdrop:hover .degdropcont{
-                display:block;
-            }
             #userinfo{
-                background-color: cyan;
+                background-color: lightcyan;
                 width: 600px;
-                height: 400px;
-                padding-left: 25px;
-                padding-right: 25px;
-                float: left;
+                height: 440px;
+                position: absolute;
+                left: 75px;
+                top: 100px;
                 overflow-x: auto;
                 overflow-y: auto;
-                
             }
             #degreeinfo{
-                background-color: cyan;
+                background-color: lightcyan;
                 width: 600px;
-                height: 400px;
-                padding-left: 25px;
-                padding-right: 25px;
-                float: right;
+                height: 440px;
+                right: 100px;
+                top: 100px;
+                position:absolute;
                 overflow-x: auto;
                 overflow-y: auto;
             }
+            #userheader{
+                background-color: white;
+                height: 40px;
+            }
+            #degreeheader{
+                background-color: white;
+                height: 40px;
+            }
+            form{
+                text-align: center;
+            }
+            footer{
+                position: absolute;
+                bottom: 8px;
+                width: 98.7%;
+            }
+          
         </style>
     </head>
     <body>
+        <?php include "header.php";?>
         <div id="wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
-            <div>
-           <h3 style="float: left; width: 50%;display:inline">UserName</h3>
-           <h3 style="float: right; width: 50%; text-align: right;">Degree Profiles</h3>
-           
-           <div class = "degdrop">
-               <span>Degree Name</span>
-               <div class = "degdropcont">
-                   <a href="#">sample</a>
-               </div>
-           </div>
-           <div> 
-                <div id="userinfo">
-<pre style = "text-align: left">
-Year Standing: 
-Current Degree: 
-Xfer Credits:
-</pre>
-                    <ul>
-                        <li>3 first year physics credits</li>
-                        <li>example 2</li>
-                        <li>example 3</li>
-                    </ul>
-                    <p>
-                    Interests
-                    </p>
-                    <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                    </ul>
-    <pre>
-if user has not filled in this info, display the discussed disclaimer.
-Section will need to auto position the edit info button at the buttom if field is empty
-    </pre>
-                    <input type="button" value = "Edit Info" onclick = "location.href = '#href'" style="margin-left: 45%;" /> 
-                </div>
-               <div id ="degreeinfo">
-                   <pre>empty for now until decided as to what should be shown. Need jscript and parsing methods</pre>
-                   <input type="button" value = "Edit Current Degree" onclick = "location.href = '#href'" style="margin-left:30%; display: inline;" />
-                   <input type="button" value = "Compare Degrees" onclick = "location.href = '#href'" style="display:inline;" />
-               </div>
-           </div>
+            <table id ="userinfo">
+                <th><h2>Welcome <?php echo $name;?>!</h2></th>
+                <tr>
+                    <td>
+                        <p>You are currently registered in year <?php echo $year;?> of a <?php echo $degree;?> degree.</p>
+                        <p>EZ-Plan is here to help you with scheduling and planning your degree over the course of your university career.</p>
+                        <p>Select from a variety of options from the top menu bar to get started!</p>
+                        <p>If you would like to update your display name or any other information regarding your account, either click on the button below or select 'My Information' from the top menu bar if you are on any other page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form name="edit info" action = "my_info_edit.php">
+                        <input type="submit" value ="edit info"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <table id="degreeinfo">
+                <th><h2>Degree Overview</h2></th>
+                <tr>
+                    <td>
+                        <form method = "POST">
+                            <select>
+                                <option value = "<?php $major ?>"><?php echo $major;?></option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p> Required Credits: <?php echo $requiredcred;?> </p></br>
+                        <p> Current Credits: <?php echo $currentcred;?></p></br>  
+                        <p> To see a more detailed breakdown and customize your schedule, click the button below.</p></br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form name="edit schedule" action = "suggested_schedule.php">
+                        <input type="submit" value ="edit schedule"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </div>
+        <?php include "footer.php";?>
     </body>
 </html>
