@@ -5,9 +5,15 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
+session_start();
+require 'connection.php';
 
+// Set up connection; redirect to log in if cannot connect or not logged in
+if (filter_input(INPUT_COOKIE, "auth") != 1) {
+    header("Location: index.php");
+}
 
-$name = "test";
+$name = filter_input(INPUT_POST, "fname");
 $year = "test1";
 $major = "test2";
 $currentcred = 30; //test
@@ -57,64 +63,10 @@ $res2 = $conn->query($sql2);
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
             html, body, #wrapper{ 
                 height: 100%;
-            }
-            #header{ 
-                border-style: solid;
-                width: 100%;
-            }
-           .homebtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 20px;
-                display: inline-block;
-                border-radius: 50%;
-                
-  
-            }
-           
-            .myinfobtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                margin-left: 15px;
-                display: inline-block;
-                
-                
-            }
-            
-            .myschedbtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                display: inline-block;
-                
-                
-            }
-            
-            .coursebtn {
-                background-color: black;
-                color: white;
-                padding: 16px;
-                font-size: 16px;
-                border: none;
-                cursor: pointer;
-                display: inline-block;
-                
-                
             }
             .degdrop{
                
@@ -170,13 +122,8 @@ $res2 = $conn->query($sql2);
         </style>
     </head>
     <body>
+        <?php include 'header.php'; ?>
         <div id="wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
             <div style = "display: inline-block;">
                 <div id ="userinfo">
                     <div id ="userheader">
@@ -215,7 +162,7 @@ $res2 = $conn->query($sql2);
                                 Current Credits: <?php echo $currentcred; ?>
                                 </p>
                                 <p style = "left:0">
-                                Remaining Credits: <?php echo $requiredcred; ?>
+                                Remaining Credits: <?php echo $remaining; ?>
                                 </p> 
                             </div>
                             <?php echo $displayR ?>
@@ -226,5 +173,6 @@ $res2 = $conn->query($sql2);
                 </div>
             </div>
         </div>
+        <?php include 'footer.php'; ?>
     </body>
 </html>

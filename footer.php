@@ -1,14 +1,3 @@
-<html>
-    <head>
-        <style>
-
-        </style>
-    </head>
-    <body>
-
-
-        <footer>
-            Copyright
-        </footer>
-    </body>
-</html>
+<footer>
+    &copy; 2016 EZ-Plan
+</footer>
