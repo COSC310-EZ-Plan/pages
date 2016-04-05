@@ -6,107 +6,125 @@ and open the template in the editor.
 -->
 <?php
 session_start();
-require 'connection.php';
+require "connection.php";
 
-// Set up connection; redirect to log in if cannot connect or not logged in
-if (filter_input(INPUT_COOKIE, "auth") != 1) {
-    header("Location: index.php");
-}
-
-$name = filter_input(INPUT_POST, "fname");
-$year = "test1";
-$major = "test2";
-$currentcred = 30; //test
-$requiredcred = 120; //test
+include("footer.php");
+$uid;
+//$email = $_SESSION["email"];
+$email = "jdoe@gmail.com"; //test
+$name; //john doe
+$year; //1
+$degree;
+$major; //compsci
+$currentcred = 0; 
+$requiredcred; 
 $remaining = $requiredcred - $currentcred;
 //DATABASE STUFF BELOW
-/*
-$conn = mysqli_connect("cosc304.ok.ubc.ca/db_ioyedele", "ioyedele", "36547123", "EZPLAN?");
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-}
- 
 
+$conn = getConnection();
 //GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
-$sql = "SELECT* FROM User where uid = $uid";
-$res = $conn->query($sql);
-    if($res){
-       while ($row = mysqli_fetch_array($res)){
-           $name = $row["fname"] + " " + $row["lastname"];
-           $major = $row["umajor"];
-           $year = $row["year"];
-       }
-    }else{
-        echo "NO RESULTS.";
-    }
-$sql2 = "SELECT* FROM UserCourse where uid = $uid";
-$res2 = $conn->query($sql2);
-    if($res2){
-       while ($row = mysqli_fetch_array($res2)){
+$sql = "SELECT* FROM User where email= '$email'";
+$res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
+if(mysqli_num_rows($res) < 1){
+    echo "<h1>No rows found...</h1>";
+    
+}
+else{
+    while ($row = mysqli_fetch_array($res)) 
+	{
+		$name = stripslashes($row['fname'])." ".stripslashes($row['lname']);
+		$year = stripslashes($row['year']);
+		$degree = stripslashes($row['umajor']);
+		$email = stripslashes($row['email']);
+                $uid = stripslashes($row['uid']);
+	}
+}
+$major = substr($degree,strpos($degree,",")+2);
+//echo "Query:".$year.",".$name.",",$major.",".$uid; //test echo
+$res -> free();
+$sql2 = "SELECT* FROM UserCourse where uid = '$uid'";   
+$res2 = mysqli_query($conn,$sql2) or die(mysqli_error($conn));  //get users courses
+if(mysqli_num_rows($res2) < 1){
+    echo "<h1>No rows found...</h1>";
+}
+else{
+    while ($row = mysqli_fetch_array($res2)){   //counting credits based off each course in userCourse
            $cc = $row["cname"];
-           $sql3 = "SELECT *insert credit thingy here* FROM Course where cname = $cc";
-           $res3 = $conn->query($sql3);
-           if(is_numeric($res3)){
-              $currentcred += $res3;
-           }else{
-               echo "NO RESULTS.";
+           $sql3 = "SELECT credits FROM Course where cname = '$cc'";
+           $res3 = mysqli_query($conn,$sql3) or die(mysqli_error($conn));
+           if(mysqli_num_rows($res2) < 1){
+                echo "<h1>No rows found...</h1>";
            }
-       }
-    }else{
-        echo "NO RESULTS.";
+           else{
+               while ($row = mysqli_fetch_array($res3)){
+                   $currentcred += $row['credits'];
+               }
+           }
+	}
+}
+$res2 -> free();
+$res3 -> free();
+$sql4 = "SELECT mincredits FROM DegreeType where degree = '$degree'";
+$res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));
+if(mysqli_num_rows($res4) < 1){
+    echo "<h1>No rows found...</h1>";
+}
+else{
+    while($row = mysqli_fetch_array($res4)){
+        $requiredcred = $row['mincredits'];
     }
-*/
+}
+//echo $requiredcred; //test echo
+$res4 -> free();
 ?>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Compare</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
-            html, body, #wrapper{ 
-                height: 100%;
+            table,th,tr,td{
+                z-index: -10;
             }
-            .degdrop{
-               
-                border: solid;
-                cursor: pointer;
-                 
-                
+            th{
+                border-style: hidden;
             }
-            .degdropcont{
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 100px;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                padding-left:6px;
+            tr,td{
+                border-style: hidden;
+                padding-left: 5px;
+                padding-right: 5px;
             }
-            .degdrop:hover .degdropcont{
-                display:block;
+            table{
+                border-style: ridge;
+                border-color: powderblue;
+                border-width: 5px;
+            }
+            #wrapper{
+                position: relative;
+                width: 100%;
             }
             #userinfo{
-                background-color: cyan;
+                background-color: lightcyan;
                 width: 600px;
                 height: 440px;
                 position: absolute;
-                left:0;
+                left: 75px;
+                top: 100px;
                 overflow-x: auto;
                 overflow-y: auto;
-                
             }
             #degreeinfo{
-                background-color: cyan;
+                background-color: lightcyan;
                 width: 600px;
                 height: 440px;
-                right:0;
+                right: 100px;
+                top: 100px;
                 position:absolute;
                 overflow-x: auto;
                 overflow-y: auto;
             }
             #userheader{
-               
                 background-color: white;
                 height: 40px;
             }
@@ -114,65 +132,61 @@ $res2 = $conn->query($sql2);
                 background-color: white;
                 height: 40px;
             }
-            <!-- something needs to be done here to stop that random-ass whitespace -->
-            #degreeheader,#userheader > h3:first-child{
-                
+            form{
+                text-align: center;
             }
+           
           
         </style>
     </head>
     <body>
-        <?php include 'header.php'; ?>
+        <?php include("header.php");?>
         <div id="wrapper">
-            <div style = "display: inline-block;">
-                <div id ="userinfo">
-                    <div id ="userheader">
-                        <h3><?php echo $name; ?></h3>
-                    </div>
-                    <p style = "left:0">
-                    Year Standing: <?php echo $year; ?>
-                    </p></br>
-                    <p style = "left:0">
-                    Current Degree: <?php echo $major; ?>
-                    </p>
-                    <form name="edit info" action = "#href">
-                        <input type="submit" value ="edit info" style ="position:relative; top: 10px; left:250px;"/> 
-                    </div>
-                </div>
-                <div id ="degreeinfo">
-                    <!-- need to fix this selector -->
-                    <div id ="degreeheader" style = "display: inline-block;">
-                        <h3>Degree Profiles</h3>
-                        <div class = "degdrop">
-                            <span>Degree Overview</span>
-                            <div class = "degdropcont">
-                                <a href="#">sample</a>
-                            </div>
-                        </div>
-                    </div>
-                    <table id = "breakdown">
-                    <tr>
-                        <td>
-                            <div><p style = "font-size: 20px; text-align:center;"><b><?php echo $major ?></b></p></div>
-                            <div>
-                                <p style = "left:0">
-                                Total Credits Required: <?php echo $requiredcred; ?>
-                                </p>
-                                <p style = "left:0">
-                                Current Credits: <?php echo $currentcred; ?>
-                                </p>
-                                <p style = "left:0">
-                                Remaining Credits: <?php echo $remaining; ?>
-                                </p> 
-                            </div>
-                            <?php echo $displayR ?>
-                            <?php echo $displayE ?>
-                        </td>
-                    </tr>
-                </table>
-                </div>
-            </div>
+            <table id ="userinfo">
+                <th><h2>Welcome <?php echo $name;?>!</h2></th>
+                <tr>
+                    <td>
+                        <p>You are currently registered in year <?php echo $year;?> of a <?php echo $degree;?> degree.</p>
+                        <p>EZ-Plan is here to help you with scheduling and planning your degree over the course of your university career.</p>
+                        <p>Select from a variety of options from the top menu bar to get started!</p>
+                        <p>If you would like to update your display name or any other information regarding your account, either click on the button below or select 'My Information' from the top menu bar if you are on any other page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form name="edit info" action = "my_info_edit.php">
+                        <input type="submit" value ="edit info"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <table id="degreeinfo">
+                <th><h2>Degree Overview</h2></th>
+                <tr>
+                    <td>
+                        <form method = "POST">
+                            <select>
+                                <option value = "<?php $major ?>"><?php echo $major;?></option>
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p> Required Credits: <?php echo $requiredcred;?> </p></br>
+                        <p> Current Credits: <?php echo $currentcred;?></p></br>  
+                        <p> To see a more detailed breakdown and customize your schedule, click the button below.</p></br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form name="edit schedule" action = "my_schedule_page.php">
+                        <input type="submit" value ="edit schedule"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <?php include 'footer.php'; ?>
+        <?php include("footer.php");?>
     </body>
 </html>
