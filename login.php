@@ -7,9 +7,9 @@
 <html>
 <head>
 <title>validating...</title>
+<link rel="stylesheet" type="text/css" href="ezplan_css.css">
 </head>
 <body>
-    <h1>If you can see this something went wrong. Please go back and try again.</h1>
 <?php
 	//User passed in variables
 	$email = filter_input(INPUT_POST, 'email');
@@ -30,15 +30,11 @@
 		//if authorized, get the values of FirstName LastName
 		while ($info = mysqli_fetch_array($result)) 
 		{
-			$fname = stripslashes($info['fname']);
-			$lname = stripslashes($info['lname']);
 			$email = stripslashes($info['email']);
 			$uid = stripslashes($info['uid']);
 		}
 		
 		//set session items for user to be used throughout website
-		$_SESSION["fname"] = $fname;
-		$_SESSION["lname"] = $lname;
 		$_SESSION["email"] = $email;
 		$_SESSION["uid"] = $uid;
 				
@@ -48,6 +44,11 @@
 		header("Location: home_page.php");
 		exit;
 	}
+        else
+        {
+            echo "<h1>Sorry, something went wrong. Please check your email and password and try again.</h1>";
+            echo "<a href='index.php'>Back</a>";
+        }
 ?>
 </body>
 </html>
