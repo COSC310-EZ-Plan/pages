@@ -1,15 +1,10 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <?php
 session_start();
 require "connection.php";
-$uid;
-//$email = $_SESSION["email"];
-$email = "jdoe@gmail.com"; //test
+$uid = $_SESSION["uid"];
+$email = $_SESSION["email"];
+//$email = "jdoe@gmail.com"; //test
 $name; //john doe
 $year; //1
 $degree;
@@ -24,8 +19,8 @@ $conn = getConnection();
 $sql = "SELECT* FROM User where email= '$email'";
 $res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
 if(mysqli_num_rows($res) < 1){
-    echo "<h1>No rows found...</h1>";
-    
+    header ("Location: index.php"); // This user is not recognized so kick back to landing page.
+    exit; 
 }
 else{
     while ($row = mysqli_fetch_array($res)) 
@@ -43,6 +38,7 @@ $res -> free();
 $sql2 = "SELECT* FROM UserCourse where uid = '$uid'";   
 $res2 = mysqli_query($conn,$sql2) or die(mysqli_error($conn));  //get users courses
 if(mysqli_num_rows($res2) < 1){
+    $currentcred = 0; // If there are no rows the User has not yet registered for any courses.
     echo "<h1>No rows found...</h1>";
 }
 else{
@@ -51,7 +47,7 @@ else{
            $sql3 = "SELECT credits FROM Course where cname = '$cc'";
            $res3 = mysqli_query($conn,$sql3) or die(mysqli_error($conn));
            if(mysqli_num_rows($res2) < 1){
-                echo "<h1>No rows found...</h1>";
+                echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistant database.
            }
            else{
                while ($row = mysqli_fetch_array($res3)){
@@ -65,7 +61,7 @@ $res3 -> free();
 $sql4 = "SELECT mincredits FROM DegreeType where degree = '$degree'";
 $res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));
 if(mysqli_num_rows($res4) < 1){
-    echo "<h1>No rows found...</h1>";
+    echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistant database.
 }
 else{
     while($row = mysqli_fetch_array($res4)){
@@ -133,12 +129,16 @@ $res4 -> free();
             form{
                 text-align: center;
             }
-           
+            footer{
+                position: absolute;
+                bottom: 8px;
+                width: 98.7%;
+            }
           
         </style>
     </head>
     <body>
-        <?php include("header.php");?>
+        <?php include "header.php";?>
         <div id="wrapper">
             <table id ="userinfo">
                 <th><h2>Welcome <?php echo $name;?>!</h2></th>
@@ -178,13 +178,13 @@ $res4 -> free();
                 </tr>
                 <tr>
                     <td>
-                        <form name="edit schedule" action = "my_schedule_page.php">
+                        <form name="edit schedule" action = "edit_degree_page.php">
                         <input type="submit" value ="edit schedule"/>
                         </form>
                     </td>
                 </tr>
             </table>
         </div>
-        <?php include("footer.php");?>
+        <?php include "footer.php";?>
     </body>
 </html>

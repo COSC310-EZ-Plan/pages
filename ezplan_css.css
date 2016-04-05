@@ -1,6 +1,5 @@
 body {
     background: powderblue;
-    font: Arial;
 }
 
 footer {
@@ -10,7 +9,6 @@ footer {
     text-align:center;
     padding:5px;
     bottom: 0;
-    width: 100%;
     overflow: hidden;
 }
 
