@@ -7,8 +7,6 @@ and open the template in the editor.
 <?php
 session_start();
 require "connection.php";
-
-include("footer.php");
 $uid;
 //$email = $_SESSION["email"];
 $email = "jdoe@gmail.com"; //test
