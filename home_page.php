@@ -174,7 +174,7 @@ else{
                 </tr>
                 <tr>
                     <td>
-                        <form name="edit schedule" action = "edit_degree_page.php">
+                        <form name="edit schedule" action = "suggested_schedule.php">
                         <input type="submit" value ="edit schedule"/>
                         </form>
                     </td>
