@@ -16,10 +16,34 @@ if ($mysqli == NULL) {
     exit;
 }
 
+$uid = $_SESSION["uid"];
+
 //Apply changes
-if(isset($_POST["submitGradeUpdate"]))
+if(isset($_POST["submitCourse"]))
 {
-    // do nothing
+    $cname = strtoupper(filter_input(INPUT_POST, "cname"));
+    $grade = filter_input(INPUT_POST, "grade");
+    $sql_validate = "SELECT cname FROM Course WHERE cname = '$cname'";
+    
+    
+    
+    if (mysqli_num_rows($mysqli->query($sql_validate)) == 1)
+    {
+        $sql_insert= "INSERT INTO UserCourse VALUES ('$grade','$uid','$cname')";
+        
+        if ($mysqli -> query($sql_insert) === TRUE)
+        {
+            $message = "Courese successfully inserted.";
+        }
+        else
+        {
+            $message = mysqli_error($mysqli);
+        }
+    }
+    else 
+    {
+        $message = "Unsuccessfully insertion. Please check your course name and number. '$cname'";
+    }
 }
 ?>
 <html>
@@ -28,6 +52,14 @@ if(isset($_POST["submitGradeUpdate"]))
         <title>Degree Breakdown</title>
         <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
+            .message {
+                padding: 20px;
+                text-align: center;
+                font-size: large;
+                color: #FFF;
+                background-color: #5199A3;
+            }
+            
             form
             {
                 width: 200px;
@@ -42,7 +74,7 @@ if(isset($_POST["submitGradeUpdate"]))
                 border-radius: 4px;
             }
             
-            input[type=submit]
+            input[type=submit], #inputCourse
             {
                 margin-top: 10px;
                 padding: 10px 20px;
@@ -71,8 +103,12 @@ if(isset($_POST["submitGradeUpdate"]))
     </head>
     <body>
         <?php
-            $uid = $_SESSION["uid"];
-
+            // Put message at the top of the page if applicable
+            if (isset($message)) {
+                echo "<p class='message'>$message</p>";
+                
+            }
+        
             // Retrives user major and echo to page
             $sql_findmaj = "SELECT umajor FROM User WHERE uid = '$uid'";
             $result_findmaj = mysqli_query($mysqli, $sql_findmaj) or die(mysqli_error($mysqli));
@@ -101,7 +137,7 @@ if(isset($_POST["submitGradeUpdate"]))
             
             // Display the Users currentcourses if any
             ?>    
-                <h3>Registered</h3>
+                <h3>Registered:</h3>
                 <table class="courselist">
             <?php
             foreach($rows_qUC as $row_qUC)
@@ -123,10 +159,10 @@ if(isset($_POST["submitGradeUpdate"]))
                         <legend>Enter Course</legend>
                         <input type="text" name="cname" placeholder="Course Name" required autofocus/><br/>
                         <input style="width: 40px;" type="number" min="0" max="100" name="year" required/><br/>
-                        <input id="formSubmit" type="submit" name="submitGradeUpdate" value="Apply"/>
+                        <input id="formSubmit" type="submit" name="submitCourse" value="Apply"/>
                     </fieldset>
                 </form>
-                <button id="inputCourse">Input Course</button><br/>
+                <button id="inputCourse">Input Course</button><br/><br/>
                 
         <?php include "footer.php"; ?>
     </body>

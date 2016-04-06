@@ -54,7 +54,7 @@
 				$_SESSION["uid"] = $uid;
 				
 				//set authorization cookie
-				setcookie("auth", "1", time()+60*30, "/", "", 0);
+				setcookie("auth", "1", time()+60*30*24, "/", "", 0);
 				
 				header("Location: home_page.php");
 				exit;
