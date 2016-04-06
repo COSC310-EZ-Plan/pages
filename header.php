@@ -1,4 +1,4 @@
-    <header><img src="http://i.imgur.com/7VaeO8k.png" style="width:155px;"></header>
+    <header><img src="http://i.imgur.com/GR7Zect.png" style="width:155px;"></header>
     <nav>
         <ul id="navigationbar">
             <li><a href="home_page.php">Home</a></li>
