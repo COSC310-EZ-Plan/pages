@@ -59,7 +59,26 @@ if(!isset($_POST['Compare'])){
                 border-style: hidden;
                 width:inherit;
                 top:40%;
-                left:35%
+                left:27.5%
+            }
+            input[type=submit] {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: cadetblue;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
+            }
+            select{
+                padding:5px;
+                background-color: whitesmoke;
+                color: black;
+                border: solid;
+                border-color: cadetblue;
+                border-radius: 4px;
+                font-size: 20px;
             }
         </style>
     </head>
@@ -205,7 +224,16 @@ if(!isset($_POST['Compare'])){
             #ind{
                 margin-left:50px;
             }*/ 
-            
+             a {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: cadetblue;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
+            }
             
         </style>
     </head>
@@ -347,7 +375,7 @@ if(!isset($_POST['Compare'])){
                     </tr>
             </table>
         </div>
-            
+    <center><a href="Compare_page.php">Back</a></center>
     <?php include("footer.php"); ?>
     </body>
 </html>
