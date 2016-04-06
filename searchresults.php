@@ -1,16 +1,29 @@
 <?php
+session_start();
 
 
-$data = $_POST['search'];
+$uid = $_SESSION["uid"];
+$dbhost = "cosc304.ok.ubc.ca";
+$dbuser = "ioyedele";
+$dbpass = "36547123";
+//connection
+$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+
+$data = $_GET['course'];
+
 if (!isset($data)) {
 	header("Location: browser.php");
 }
+if(! $conn ) {
+      die('Could not connect: ' . mysql_error());
+   }
 // Query
-$search_sql= "SELECT * FROM Course WHERE cname LIKE'%".$data."%' OR title LIKE'%".$data."%'"; 
-$search_query = mysql_query ($search_sql);
+$search_sql= "SELECT * FROM Course WHERE cname LIKE'%".$data."%' OR title LIKE'%".$data."%';"; 
+mysql_select_db('db_ioyedele');
+$search_query = mysql_query ($search_sql,$conn);
 
-if(mysql_num_rows($search_query) != 0){
-$search_rs = mysql_fetch_assoc($search_query);
+if(!$search_query){
+    die('Could not get data: ' . mysql_error());
 }
   
 ?>
@@ -23,10 +36,11 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+         <title>Compare</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <style>
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
+        <style>
             html, body, #wrapper{ 
                 height: 100%;
             }
@@ -105,12 +119,17 @@ and open the template in the editor.
                 display:block;
             }
             table{
-                width: 1000px;
-                height: 500px;
-                background-color: cyan;
-                border: solid;
-                border-collapse: collapse;
-                margin: 100px 100px 100px 500px;
+                 border-style: ridge;
+                border-color: powderblue;
+                border-width: 5px;
+                background-color: lightcyan;
+                width: 600px;
+                height: 440px;
+                right: 100px;
+                top: 100px;
+                overflow-x: auto;
+                overflow-y: auto;
+                margin: 0px auto;
             }
             .hide { 
                 list-style-type: none;
@@ -118,87 +137,61 @@ and open the template in the editor.
                 margin:0px;
                 padding:0px;
             }
+            
+            #footer{
+                position: fixed;
+            }
            
         </style>
     </head>
     <body>
+        <?php include "header.php";?>
         <div id = "wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
+            
             <div>
-               <table>
-                    <!-- <caption>
-                        <div style ="display: inline-block; clear:both; float:right;">
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                                <div class = "sort">
-                                    <span>Name</span>
-                                        <div class = "sortdropcont">
-                                            <a href="#">sample</a>
-                                         </div>
-                                </div>
-                            <input style = "width:25%" id ='search' placeholder ='search'>
-                         </div>
-                    </caption>
-                    <tr style = "border-right: solid">
-                        <th style = "line-height: 50px; border-right: solid; overflow-y: auto;">
-                           <ul class = "hide">
-                                <li><a href ="#href"> Course 1</a></li>
-                                <li><a href ="#href"> Course 2</a></li>
-                                <li><a href ="#href"> Course 3</a></li>
-                                <li><a href ="#href"> Course 4</a></li>
-                                <li><a href ="#href"> Course 5</a></li>
-                            </ul>-->
-                        </th>
-                        <th style = "overflow-y: auto;">
-                       
-                        <?php if (mysql_num_rows($search_query)!=0){    
-                            do { ?>
+               
+                       <div>
+                          <p style = "text-align: left; margin-left: 25px; vertical-align: top; font-size:20px;"><b><u>Course Info</u> </b></p>
+                       </div>
+                        <?php while($row = mysql_fetch_array($search_query, MYSQL_ASSOC)){ 
+                        //query results	
+                            $cname = $row['cname'];
+                            $title = $row['title'];
+                            $description =$row['description'];
+                            $credits = $row['credits'];
+                            ?>
                             <div>
-                                <p style = "text-align: left; margin-left: 25px; vertical-align: top; font-size:20px;"><b><u>Course Info</u> </b></p>
+                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $cname ?></b></p>
                             </div>
                             <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $search_results ['cname'] ?></b></p>
+                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $title ?></b></p>
                             </div>
                             <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $search_results ['title'] ?></b></p>
+                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $description ?></b></p>
                             </div>
                             <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $search_results ['description'] ?></b></p>
+                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $credits ?></b></p>
                             </div>
                             <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $search_results ['credits'] ?></b></p>
+                                <form action="addCourse.php" method="get">
+                                    <button name="add" type="submit" value='<?php echo $cname?>'>Add Course</button>
+                                </form>
+                                
+                                
                             </div>
-                        <?php }while ($search_rs = mysql_fetch_assoc($search_query));
+                        <?php }
                         
-                            }
-                        else{
-                            echo 'No results';
-                        }
+                            
+                        
                         ?>
                       
-                        </th>
-                    </tr>
-                </table>
+                        
                        
                       
                 </div>
             </div>
         
+                <?php include "footer.php";?>
     </body>
 </html>
 
