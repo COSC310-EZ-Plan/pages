@@ -52,12 +52,39 @@ if(isset($_POST["submitCourse"]))
         <title>Degree Breakdown</title>
         <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
+            #content
+            {
+                margin: auto;
+                width: 50%;
+            }
+            
             .message {
                 padding: 20px;
                 text-align: center;
                 font-size: large;
                 color: #FFF;
                 background-color: #5199A3;
+            }
+            
+            table.courselist {
+                border:1px solid black;
+                width:200px;
+                background-color: #DDF5F8;
+            }
+            
+            table.courselist tr td {
+                padding: 5px;
+                margin: 5px;
+            }
+            
+            td.course {
+                width:80%;
+                border: 1px solid #80C1CA;
+            }
+            
+            td.grade {
+                width:30%;
+                border: 1px solid #80C1CA;
             }
             
             form
@@ -102,6 +129,7 @@ if(isset($_POST["submitCourse"]))
         </script>
     </head>
     <body>
+        <div id="content">
         <?php
             // Put message at the top of the page if applicable
             if (isset($message)) {
@@ -164,6 +192,40 @@ if(isset($_POST["submitCourse"]))
                 </form>
                 <button id="inputCourse">Input Course</button><br/><br/>
                 
+        <?php
+            // Retrive data from DegreeView table //qDV -> query DegreeView //Will be used for calculations
+            $sql_qDV = "SELECT * FROM DegreeView WHERE uid = '$uid'";
+            $result_qDV = mysqli_query($mysqli, $sql_qDV) or die(mysqli_error($mysqli));
+            
+            if(mysqli_num_rows($result_qUC) != 0)
+            {
+                $rows_qDV = mysqli_fetch_all($result_qDV, MYSQLI_BOTH);
+            }
+            else 
+            {
+                // If not registered in any courses the user gets kicked to the suggested_schedule page
+                header("Location: suggested_schedule.php");
+                exit;
+            }
+            
+            // Display the Users currentcourses if any
+            ?>    
+                <h3>Courses You Have Saved:</h3>
+                <table class="courselist">
+            <?php
+            foreach($rows_qDV as $row_qDV)
+            {
+                $cname = $row_qDV["cname"];
+                
+                ?>
+                <tr>
+                    <td class="course" style="width: 100%"><?php courselink($cname); ?></td>
+                </tr>
+                <?php
+            }
+        ?>
+                </table><br>
+            </div>    
         <?php include "footer.php"; ?>
     </body>
 </html>
