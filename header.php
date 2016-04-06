@@ -8,7 +8,7 @@
                     <div class="dropdown-content" style="z-index: 10">
                         <a href="Compare_page.php">Compare Degrees</a>
                         <a href="suggested_schedule.php">Schedule Plan</a>
-                        <a href="edit_degree_page.php">Degree Info</a>
+                        <a href="degree_page.php">Degree Info</a>
                     </div>
                 </li>
                 <li><a href="course_browser.php">View Courses</a></li>
