@@ -61,7 +61,7 @@
     </head>
     <body>
         <div id="page" align="center">
-            <img src="http://i.imgur.com/7VaeO8k.png" style="margin-bottom: 10px;">
+            <img src="http://i.imgur.com/GR7Zect.png" style="margin-bottom: 10px;">
             <form method="post" action="registerpage2.php" style="width:30%">
                 <input type="email" name="email" placeholder="Email" autofocus required/><br/>
                 <!-- TODO PHP Validation of password -->
