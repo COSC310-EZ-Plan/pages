@@ -65,10 +65,11 @@ $major = substr($degree, strpos($degree, ",") + 2);
                     <input type="password" name="cpassword" value="" size="25" maxlength="20">
                     <br><br>
 
-                    <label>Major:</label><br>
+                    <label>Degree:</label><br>
                     <select name="major">
                         <option value="Bachelor of Science, Major in Computer Science" selected>Bachelor of Science, Major in Computer Science</option>
                     </select><br/>
+                    <a href='edit_degree_page.php'>Click here to edit your degree info</a>
                     <br><br>
 
                     <label>Year:</label><br>
