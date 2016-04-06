@@ -6,12 +6,17 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+         <title>Browser</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <style>
+        <link rel="stylesheet" type="text/css" href="ezplan_css.css">
+        <style>
             html, body, #wrapper{ 
                 height: 100%;
+            }
+            body
+            {
+                font-size: 14pt;
             }
 			
             #header{ 
@@ -88,44 +93,67 @@ and open the template in the editor.
             .sort:hover .sortdropcont{
                 display:block;
             }
-            table{
-                width: 1000px;
-                height: 500px;
-                background-color: cyan;
-                border: solid;
-                border-collapse: collapse;
-                margin: 100px 100px 100px 500px;
-            }
+            
             .hide { 
                 list-style-type: none;
                 list-style-position:inside;
                 margin:0px;
                 padding:0px;
             }
-            form{
-                position: fixed;
-                top: 50%;
-                left:50%;
+            
+            
+            
+            footer{
+                position: absolute;
+                bottom: 8px;
+                width: 98.7%;
             }
-           
+            input[type=submit]
+            {
+                margin-top: 10px;
+                padding: 10px 20px;
+                color: white;
+                background-color: cadetblue;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
+            }
+            input[type=text]
+            {
+                width: 90%;
+                padding: 5px;
+                margin-bottom: 10px;
+                display: inline-block;
+                border: 2px solid #000;
+                border-radius: 4px;
+            }
+           form
+            {
+                background-color: white;
+                width: 20%;
+                padding: 20px;
+                border-style: solid;
+                border-width: 1px;
+                border-radius: 4px;
+                border-color: grey;
+                
+            }
         </style>
     </head>
     <body>
-        <div id = "wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
+        <?php include "header.php";?>
+        <h1 style="text-align:center">Course Browser</h1>
+        <div id = "wrapper" align="center">
+            
                
-            <form name = "form1" method="post" action="searchresults.php">
-                <input name ="search" type="text" size="40" maxlength="50" />
+            <form name = "form1" method="get" action="searchresults.php">
+                <input name ="course" type="text" size="40" maxlength="50" />
                 <input type="submit" name="Submit" value="Search" />
                
             </form>
                 
             </div>
-        
+       <?php include "footer.php";?>
     </body>
 </html>
