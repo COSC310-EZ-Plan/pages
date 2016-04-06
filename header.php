@@ -1,4 +1,4 @@
-    <header><img src="http://i.imgur.com/7VaeO8k.png" style="width:155px;"></header>
+    <header><img src="http://i.imgur.com/GR7Zect.png" style="width:155px;"></header>
     <nav>
         <ul id="navigationbar">
             <li><a href="home_page.php">Home</a></li>
@@ -8,7 +8,7 @@
                     <div class="dropdown-content" style="z-index: 10">
                         <a href="Compare_page.php">Compare Degrees</a>
                         <a href="suggested_schedule.php">Schedule Plan</a>
-                        <a href="edit_degree_page.php">Degree Info</a>
+                        <a href="degree_page.php">Degree Info</a>
                     </div>
                 </li>
                 <li><a href="course_browser.php">View Courses</a></li>
