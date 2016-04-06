@@ -7,7 +7,9 @@ and open the template in the editor.
 <?php
 session_start();
 require "connection.php";
-include("footer.php");
+/*if (filter_input(INPUT_COOKIE, "auth") != 1) {
+    header("Location: index.php");
+}*/
 $uid;
 //$email = $_SESSION["email"];
 $email = "jdoe@gmail.com"; //test
@@ -83,6 +85,16 @@ $res4 -> free();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="ezplan_css.css">
         <style>
+            input[type=submit] {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: cadetblue;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
+            }
             table,th,tr,td{
                 z-index: -10;
             }
@@ -108,20 +120,16 @@ $res4 -> free();
                 width: 600px;
                 height: 440px;
                 position: absolute;
-                left: 75px;
+                left: 275px;
                 top: 100px;
-                overflow-x: auto;
-                overflow-y: auto;
             }
             #degreeinfo{
                 background-color: lightcyan;
-                width: 600px;
-                height: 440px;
-                right: 100px;
+                width: auto;
+                height: auto;
+                right: 300px;
                 top: 100px;
                 position:absolute;
-                overflow-x: auto;
-                overflow-y: auto;
             }
             #userheader{
                 background-color: white;
@@ -133,6 +141,10 @@ $res4 -> free();
             }
             form{
                 text-align: center;
+            }
+            footer{
+                position:absolute;
+                bottom:0;
             }
            
           
@@ -172,15 +184,15 @@ $res4 -> free();
                 </tr>
                 <tr>
                     <td>
-                        <p> Required Credits: <?php echo $requiredcred;?> </p></br>
-                        <p> Current Credits: <?php echo $currentcred;?></p></br>  
-                        <p> To see a more detailed breakdown and customize your schedule, click the button below.</p></br>
+                        <p style = "text-align:center; font-size: 115%;"> <b>Required Credits: <?php echo $requiredcred;?></b> </p>
+                        <p style = "text-align:center; font-size: 115%;"> <b>Current Credits: <?php echo $currentcred;?> </b></p></br>
+                        <p> To see a more detailed breakdown and customize your schedule, click the button below.</p>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <form name="edit schedule" action = "my_schedule_page.php">
-                        <input type="submit" value ="edit schedule"/>
+                        <input type="submit" value ="edit schedule" style = "margin-bottom:5px"/>
                         </form>
                     </td>
                 </tr>
