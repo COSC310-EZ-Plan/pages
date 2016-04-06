@@ -54,7 +54,7 @@
     </head>
     <body>
         <div id="page" align="center">
-            <img src="http://i.imgur.com/7VaeO8k.png" style="margin-bottom: 10px;">
+            <img src="http://i.imgur.com/GR7Zect.png" style="margin-bottom: 10px;">
             <form action="login.php" method="post">
                 <input type="text" name="email" placeholder="Email" autofocus/>
                 <br/>

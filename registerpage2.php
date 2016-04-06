@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <title>processing...</title>
-<head></head>
-<body style="background-color: powderblue">
+<head>
+<link rel="stylesheet" type="text/css" href="ezplan_css.css">
+</head>
+<body>
 <?php
-	// Set up session and database connection
+    // Set up session and database connection
     session_start();
-	require "connection.php";
+    require "connection.php";
     
-	//User passed in variables
+    //User passed in variables
     $email = filter_input(INPUT_POST, 'email');
     $password = filter_input(INPUT_POST, 'password');
     $cpassword = filter_input(INPUT_POST, 'cpassword');
@@ -42,21 +44,17 @@
 				
 				if (mysqli_num_rows($result) == 1)
 				{
-					//get the uid of the user
-					while ($info = mysqli_fetch_array($result)) 
-					{
-						$uid = stripslashes($info['uid']);
-					}
+                                    //get the uid of the user
+                                    $info = mysqli_fetch_array($result);
+                                    $uid = stripslashes($info['uid']);
 				}
 				
 				//set session items for user to be used throughout website
-				$_SESSION["fname"] = $fname;
-				$_SESSION["lname"] = $lname;
 				$_SESSION["email"] = $email;
 				$_SESSION["uid"] = $uid;
 				
 				//set authorization cookie
-				setcookie("auth", "1", time()+60*30, "/", "", 0);
+				setcookie("auth", "1", time()+60*30*24, "/", "", 0);
 				
 				header("Location: home_page.php");
 				exit;

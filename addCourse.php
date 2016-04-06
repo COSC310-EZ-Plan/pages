@@ -1,33 +1,24 @@
-<?php
+<?php 
 session_start();
-
-
 $uid = $_SESSION["uid"];
+//connection
 $dbhost = "cosc304.ok.ubc.ca";
 $dbuser = "ioyedele";
 $dbpass = "36547123";
-//connection
 $conn = mysql_connect($dbhost, $dbuser, $dbpass);
-
-$data = $_GET['course'];
-
-if (!isset($data)) {
-	header("Location: browser.php");
-}
+$add = $_GET['add'];
 if(! $conn ) {
       die('Could not connect: ' . mysql_error());
    }
-// Query
-$search_sql= "SELECT * FROM Course WHERE cname LIKE'%".$data."%' OR title LIKE'%".$data."%';"; 
-mysql_select_db('db_ioyedele');
-$search_query = mysql_query ($search_sql,$conn);
 
-if(!$search_query){
-    die('Could not get data: ' . mysql_error());
-}
+    $search_sql= "SELECT cname FROM UserCourse WHERE cname LIKE'".$add."' AND uid = '".$uid."';"; 
+    mysql_select_db('db_ioyedele');
+    $search_query = mysql_query ($search_sql,$conn);
+    $row = mysql_fetch_array($search_query, MYSQL_ASSOC);
   
+    
+    
 ?>
-
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -44,12 +35,12 @@ and open the template in the editor.
             html, body, #wrapper{ 
                 height: 100%;
             }
-			
-            #header{ 
-                border-style: solid;
-                width: 100%;
-				
+            body
+            {
+                font-size: 14pt;
             }
+			
+            
            .homebtn {
                 background-color: black;
                 color: white;
@@ -138,60 +129,43 @@ and open the template in the editor.
                 padding:0px;
             }
             
-            #footer{
-                position: fixed;
+            
+            input[type=submit]
+            {
+                margin-top: 10px;
+                padding: 10px 20px;
+                color: white;
+                background-color: cadetblue;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
             }
            
         </style>
     </head>
     <body>
         <?php include "header.php";?>
-        <div id = "wrapper">
-            
-            <div>
-               
-                       <div>
-                          <p style = "text-align: left; margin-left: 25px; vertical-align: top; font-size:20px;"><b><u>Course Info</u> </b></p>
-                       </div>
-                        <?php while($row = mysql_fetch_array($search_query, MYSQL_ASSOC)){ 
-                        //query results	
-                            $cname = $row['cname'];
-                            $title = $row['title'];
-                            $description =$row['description'];
-                            $credits = $row['credits'];
-                            ?>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $cname ?></b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $title ?></b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $description ?></b></p>
-                            </div>
-                            <div>
-                                <p style = "text-align: left; margin-left: 25px;"><b> <?php echo $credits ?></b></p>
-                            </div>
-                            <div>
-                                <form action="addCourse.php" method="get">
-                                    <button name="add" type="submit" value='<?php echo $cname?>'>Add Course</button>
-                                </form>
-                                
-                                
-                            </div>
-                        <?php }
-                        
-                            
-                        
-                        ?>
-                      
-                        
-                       
-                      
-                </div>
-            </div>
+        <div>
+            <?php
+            if(!$row){
+        $addcourse_sql= "INSERT INTO UserCourse (grade, uid, cname ) VALUES (null,'".$uid."','".$add."');";
+        $add_query = mysql_query ($addcourse_sql,$conn);
+        echo '<h1 style="text-align:center">Course was successfully added.</h1>';
         
-                <?php include "footer.php";?>
+        }else{
+            echo'<h1 style="text-align:center">You already have this course on your list.</h1>';
+    
+            
+              }
+        ?>
+        </div>
+        <div id = "wrapper" align="center">
+            <form name = "form1" method="get" action="course_browser.php">
+                <input type="submit" name="Back" value="Back to Browser" />
+               
+            </form>
+        </div>
+        
     </body>
-</html>
 
