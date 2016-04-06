@@ -69,7 +69,7 @@ $major = substr($degree, strpos($degree, ",") + 2);
                     <select name="major">
                         <option value="Bachelor of Science, Major in Computer Science" selected>Bachelor of Science, Major in Computer Science</option>
                     </select><br/>
-                    <a href='edit_degree_page.php'>Click here to edit your degree info</a>
+                    <a href='degree_page.php'>Click here to edit your degree info</a>
                     <br><br>
 
                     <label>Year:</label><br>
