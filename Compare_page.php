@@ -224,7 +224,7 @@ if(!isset($_POST['Compare'])){
             #ind{
                 margin-left:50px;
             }*/ 
-             a {
+             #comp {
                 margin-top: 10px;
                 padding: 10px 20px;
                 background-color: cadetblue;
@@ -375,7 +375,7 @@ if(!isset($_POST['Compare'])){
                     </tr>
             </table>
         </div>
-    <center><a href="Compare_page.php">Back</a></center>
+    <center><a id = "comp" href="Compare_page.php">Back</a></center>
     <?php include("footer.php"); ?>
     </body>
 </html>
