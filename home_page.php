@@ -38,14 +38,14 @@ else{
 		$year = stripslashes($row['year']);
 		$degree = stripslashes($row['umajor']);
 	}
+    $res -> free();
 }
 $major = substr($degree,strpos($degree,",")+2);
 //echo "Query:".$year.",".$name.",",$major.",".$uid; //test echo
-$res -> free();
 $sql2 = "SELECT* FROM UserCourse WHERE uid = '$uid'";   
 $res2 = mysqli_query($conn,$sql2) or die(mysqli_error($conn));  //get users courses
 if(mysqli_num_rows($res2) < 1){
-    echo "<h1>No rows found...</h1>";
+    $currentcred = 0;
 }
 else{
     while ($row = mysqli_fetch_array($res2)){   //counting credits based off each course in userCourse
@@ -61,9 +61,9 @@ else{
                }
            }
 	}
+    $res2 -> free();
+    $res3 -> free();
 }
-$res2 -> free();
-$res3 -> free();
 $sql4 = "SELECT mincredits FROM DegreeType WHERE degree = '$degree'";
 $res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));
 if(mysqli_num_rows($res4) < 1){
@@ -73,9 +73,8 @@ else{
     while($row = mysqli_fetch_array($res4)){
         $requiredcred = $row['mincredits'];
     }
+    $res4 -> free();
 }
-//echo $requiredcred; //test echo
-$res4 -> free();
 ?>
 <html>
     <head>
