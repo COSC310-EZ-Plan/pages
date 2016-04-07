@@ -17,6 +17,10 @@
 	
     //Get connection
     $con = getConnection();
+    if ($con == NULL) {
+        header("Location: no_connection.php");
+        exit;
+    }
 	
     //query the database to see if email in use.
     $sql = "SELECT * FROM User WHERE email = '".$email."' AND password = PASSWORD('".$password."')";

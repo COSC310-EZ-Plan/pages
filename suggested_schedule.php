@@ -11,7 +11,8 @@ if (filter_input(INPUT_COOKIE, "auth") != 1) {
 }
 $mysqli = getConnection();
 if ($mysqli == NULL) {
-    header("Location: index.php");
+    header("Location: no_connection.php");
+    exit;
 }
 ?>
 

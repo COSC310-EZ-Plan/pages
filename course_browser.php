@@ -138,7 +138,7 @@
         <h1 style="text-align:center">Course Browser</h1>
         <div id = "wrapper" align="center">
             <form name = "form1" method="get" action="searchresults.php">
-                <input name ="course" type="text" size="40" maxlength="50" />
+                <input name ="course" type="text" size="40" maxlength="50" autofocus/>
                 <input type="submit" name="Submit" value="Search" />
             </form>
         </div>

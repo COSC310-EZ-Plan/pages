@@ -12,7 +12,7 @@ if (filter_input(INPUT_COOKIE, "auth") != 1) {
 }
 $mysqli = getConnection();
 if ($mysqli == NULL) {
-    header("Location: index.php");
+    header("Location: no_connection.php");
     exit;
 }
 
@@ -94,12 +94,6 @@ if(isset($_POST["submitCourse"]))
                 border: 1px solid #80C1CA;
             }
             
-            td.lettergrade 
-            {
-                width: 30%;
-                border: 1px solid #80C1CA;
-            }
-            
             form
             {
                 width: 200px;
@@ -169,35 +163,31 @@ if(isset($_POST["submitCourse"]))
             {
                 $rows_qUC = mysqli_fetch_all($result_qUC, MYSQLI_BOTH);
             }
-            else
-            {
-                $rows_qUC = array(); // Initialize with nothing
-            }
             
             // Display the Users currentcourses if any
-            ?>    
+        ?>    
                 <h3>Registered:</h3>
                 <table class="courselist">
-            <?php
+        <?php
             foreach($rows_qUC as $row_qUC)
             {
                 $cname = $row_qUC["cname"];
                 $grade = ($row_qUC["grade"] == 0) ? "No Grade" : $row_qUC["grade"]."%";
                 
-                ?>
+        ?>
                 <tr>
-                    <td class="course"><?php courselink($cname); ?></td>
-                    <td class="grade"><?php echo "$grade"; ?></td>
-                    <td class="lettergrade"><?php getLetterGrade($grade); ?></td>
+                    <td class="course"><?php echo $cname; ?></td>
+                    <td class="grade"><?php echo $grade; ?></td>
+                    <td class="grade"><?php getLetterGrade($grade); ?></td>
                 </tr>
-                <?php
+        <?php
             }
         ?>
-                </table><br>
+                </table><br/>
                 <form method="POST" hidden>
                     <fieldset>
                         <legend>Enter Course</legend>
-                        <input type="text" name="cname" placeholder="Course Name" required autofocus/><br/>
+                        <input type="text" name="cname" placeholder="Course Name" required autocomplete="off" autofocus/><br/>
                         <input style="width: 40px;" type="number" min="0" max="100" name="grade" required/><br/>
                         <input id="formSubmit" type="submit" name="submitCourse" value="Apply"/>
                     </fieldset>
@@ -205,7 +195,7 @@ if(isset($_POST["submitCourse"]))
                 <button id="inputCourse">Input Course</button><br/><br/>
         <?php
             // Retrive data from DegreeView table //qDV -> query DegreeView //Will be used for calculations
-            $sql_qDV = "SELECT * FROM DegreeView WHERE uid = '$uid'";
+            $sql_qDV = "SELECT * FROM DegreeView WHERE uid = $uid";
             $result_qDV = mysqli_query($mysqli, $sql_qDV) or die(mysqli_error($mysqli));
             
             if(mysqli_num_rows($result_qDV) != 0)
@@ -215,26 +205,32 @@ if(isset($_POST["submitCourse"]))
             else 
             {
                 // If not registered in any courses initialize messae
-                $noCourseSaved = "You currently have no courses saved. go to";
+                $noCourseSavedMsg = "You currently have no courses saved. Go to Scheduler page.<br/><a href='suggested_schedule.php'>Suggested Schedule Page</a>";
             }
             
             // Display the Users currentcourses if any
-            ?>    
+        ?>    
                 <h3>Courses You Have Saved:</h3>
                 <table class="courselist">
-            <?php
+        <?php
+            // Put message at the top of the page if applicable
+            if (isset($noCourseSavedMsg)) {
+                echo "<p class='message'>$noCourseSavedMsg</p>";
+                
+            }
+        
             foreach($rows_qDV as $row_qDV)
             {
                 $cname = $row_qDV["cname"];
                 
-                ?>
+        ?>
                 <tr>
-                    <td class="course" style="width: 100%"><?php courselink($cname); ?></td>
+                    <td class="course" style="width: 100%"><?php echo $cname; ?></td>
                 </tr>
-                <?php
+        <?php
             }
         ?>
-                </table><br>
+                </table><br/>
                 <a href="suggested_schedule.php">Suggested Schedule Page</a>
             </div>    
         <?php include "footer.php"; ?>
@@ -243,12 +239,6 @@ if(isset($_POST["submitCourse"]))
 
 <?php
 // Functions
-
-function courselink($cname) {
-    // Just echo the variable, for now
-    echo $cname;
-}
-
 function getLetterGrade($grade){
     if($grade >= 90){echo "A+";}
     else if($grade >= 85){echo "A";}

@@ -9,6 +9,10 @@ and open the template in the editor.
 session_start();
 require "connection.php";
 $conn = getConnection();
+if ($conn == NULL) {
+    header("Location: no_connection.php");
+    exit;
+}
 $d1val;
 $d2val;
 $d3val;
