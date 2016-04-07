@@ -46,7 +46,6 @@ $major = substr($degree, strpos($degree, ",") + 2);
         <style>
             #content{
                 margin-left: 20%;
-                background-color: white;
             }
             form
             {
@@ -79,7 +78,7 @@ $major = substr($degree, strpos($degree, ",") + 2);
 
     <body>
         <div id="content">
-            <form method="post" action="my_info_edit2.php" style="width:30%">
+            <form method="post" action="my_info_edit2.php">
                 <fieldset>
                     <legend>My Info Edit</legend>
                     <label>Username:</label><br>
@@ -122,5 +121,5 @@ $major = substr($degree, strpos($degree, ",") + 2);
             </form>
         </div>
     <?php
-    include 'footer.php';
+        include 'footer.php';
     ?>

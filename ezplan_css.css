@@ -1,5 +1,12 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     background: whitesmoke;
+    margin: 0 0 20px;
+    padding: 2px;
 }
 
 footer {
@@ -10,6 +17,8 @@ footer {
     padding:5px;
     bottom: 0;
     overflow: hidden;
+    position: absolute;
+    width: 98.7%;
 }
 
 ul {
