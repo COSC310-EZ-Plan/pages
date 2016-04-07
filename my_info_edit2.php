@@ -34,7 +34,7 @@ if (empty($cpassword) && empty($password)) {
 } else if (strcmp($password, $cpassword) === 0) {
     $sql = "UPDATE User SET fname ='$fname', lname = '$lname', year='$year', umajor='$major', interest='$interest', password = PASSWORD('" . $password . "')  WHERE uid='$uid'";
     if ($con->query($sql) == TRUE) {
-        echo "updated!";
+        echo "updated!<br/><a href='home_page.php'>Back</a>";
     } else {
         echo "error updated:" . $conn->error;
     }
