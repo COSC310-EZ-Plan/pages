@@ -1,11 +1,10 @@
 <?php 
 session_start();
+require "connection.php";
+
 $uid = $_SESSION["uid"];
 //connection
-$dbhost = "cosc304.ok.ubc.ca";
-$dbuser = "ioyedele";
-$dbpass = "36547123";
-$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+$conn = getConnection();
 $add = $_GET['add'];
 if(! $conn ) {
       die('Could not connect: ' . mysql_error());
@@ -20,14 +19,9 @@ if(! $conn ) {
     
 ?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-         <title>Compare</title>
+         <title>Courses</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="ezplan_css.css">

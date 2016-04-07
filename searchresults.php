@@ -1,13 +1,11 @@
 <?php
 session_start();
-
+require "connection.php";
 
 $uid = $_SESSION["uid"];
-$dbhost = "cosc304.ok.ubc.ca";
-$dbuser = "ioyedele";
-$dbpass = "36547123";
+
 //connection
-$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+$conn = getConnection();
 
 $data = $_GET['course'];
 
@@ -29,11 +27,6 @@ if(!$search_query){
 ?>
 
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
          <title>Compare</title>
@@ -147,9 +140,7 @@ and open the template in the editor.
     <body>
         <?php include "header.php";?>
         <div id = "wrapper">
-            
             <div>
-               
                        <div>
                           <p style = "text-align: left; margin-left: 25px; vertical-align: top; font-size:20px;"><b><u>Course Info</u> </b></p>
                        </div>
@@ -176,22 +167,12 @@ and open the template in the editor.
                                 <form action="addCourse.php" method="get">
                                     <button name="add" type="submit" value='<?php echo $cname?>'>Add Course</button>
                                 </form>
-                                
-                                
                             </div>
                         <?php }
-                        
-                            
-                        
                         ?>
-                      
-                        
-                       
-                      
                 </div>
             </div>
         
                 <?php include "footer.php";?>
     </body>
 </html>
-

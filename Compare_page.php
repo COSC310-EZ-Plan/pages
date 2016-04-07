@@ -12,9 +12,9 @@ $conn = getConnection();
 $d1val;
 $d2val;
 $d3val;
-//$uid = getId($_SESSION["email"]);
-//$email = $_SESSION["email"];
-$email = "jdoe@gmail.com"; //test
+$uid = $_SESSION["uid"];
+$email = $_SESSION["email"];
+//$email = "jdoe@gmail.com"; //test
 $name; //john doe
 $year; //1
 $degree;
@@ -23,7 +23,7 @@ $currentcred = 0;
 $requiredcred; 
 
 if(!isset($_POST['Compare'])){
-    $sql = "SELECT* FROM User where email= '$email'";
+    $sql = "SELECT* FROM User WHERE email= '$email'";
     $res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
     if(mysqli_num_rows($res) < 1){
         echo "<h1>No rows found...</h1>";
@@ -52,14 +52,15 @@ if(!isset($_POST['Compare'])){
          <style>
              footer{
                  position:absolute;
-                 bottom: 0;
+                 bottom: 7px;
+                 width: 97.8%;
              }
             .selector{
                 position:absolute;
                 border-style: hidden;
                 width:inherit;
-                top:40%;
-                left:27.5%
+                top:20%;
+                left:15%
             }
             input[type=submit] {
                 margin-top: 10px;
@@ -123,7 +124,7 @@ if(!isset($_POST['Compare'])){
     </body>
 </html>
 <?php }else{
-    $sql = "SELECT* FROM User where email= '$email'";
+    $sql = "SELECT* FROM User WHERE email= '$email'";
     $res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
     if(mysqli_num_rows($res) < 1){
         echo "<h1>No rows found...</h1>";
@@ -156,7 +157,7 @@ if(!isset($_POST['Compare'])){
     if($d2val === $d3val){
         $d3val = "null";
     }
-    $sql3 = "SELECT mincredits FROM DegreeType where degree = '$degree'";
+    $sql3 = "SELECT mincredits FROM DegreeType WHERE degree = '$degree'";
     $res3 = mysqli_query($conn,$sql3) or die(mysqli_error($conn));
     if(mysqli_num_rows($res3) < 1){
         echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistant database.
@@ -167,12 +168,12 @@ if(!isset($_POST['Compare'])){
         }
         $res3 -> free();
     }
-    $sql4 = "SELECT* FROM UserCourse where uid = '$uid'";   
+    $sql4 = "SELECT* FROM UserCourse WHERE uid = '$uid'";   
     $res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));  //get users courses
     if(mysqli_num_rows($res4) > 0){
         while ($row = mysqli_fetch_array($res4)){   //counting credits based off each course in userCourse
                $cc = $row["cname"];
-               $sql5 = "SELECT credits FROM Course where cname = '$cc'";
+               $sql5 = "SELECT credits FROM Course WHERE cname = '$cc'";
                $res5 = mysqli_query($conn,$sql5) or die(mysqli_error($conn));
                if(mysqli_num_rows($res5) < 1){
                     echo "<h1>No rows found...</h1>"; // This should never happen or we have an inconsistent database.
@@ -213,17 +214,13 @@ if(!isset($_POST['Compare'])){
             #conttable{
                 text-align: center;
                 font-size:18px;
-                margin-top:100px;
-                margin-left:25%;
+                margin-top:5%;
+                margin-left:15%;
                 border-style: ridge;
                 border-color: powderblue;
                 background-color: lightcyan;
                 
             }
-            /*
-            #ind{
-                margin-left:50px;
-            }*/ 
              #comp {
                 margin-top: 10px;
                 padding: 10px 20px;

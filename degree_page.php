@@ -29,7 +29,7 @@ if(isset($_POST["submitCourse"]))
     
     if (mysqli_num_rows($mysqli->query($sql_validate)) == 1)
     {
-        $sql_insert= "INSERT INTO UserCourse VALUES ('$grade','$uid','$cname')";
+        $sql_insert= "INSERT INTO UserCourse VALUES ($grade,$uid,'$cname')";
         
         if ($mysqli -> query($sql_insert) === TRUE)
         {
@@ -42,7 +42,7 @@ if(isset($_POST["submitCourse"]))
     }
     else 
     {
-        $message = "Unsuccessfully insertion. Please check your course name and number. '$cname'";
+        $message = "Unsuccessfull insertion. Please check your course name and number. '$cname'";
     }
 }
 ?>
@@ -58,7 +58,8 @@ if(isset($_POST["submitCourse"]))
                 width: 50%;
             }
             
-            .message {
+            .message 
+            {
                 padding: 20px;
                 text-align: center;
                 font-size: large;
@@ -66,30 +67,43 @@ if(isset($_POST["submitCourse"]))
                 background-color: #5199A3;
             }
             
-            table.courselist {
+            table.courselist 
+            {
                 border:1px solid black;
                 width:200px;
                 background-color: #DDF5F8;
+                border-radius: 4px;
             }
             
-            table.courselist tr td {
+            table.courselist tr td 
+            {
                 padding: 5px;
                 margin: 5px;
+                border-radius: 4px;
             }
             
-            td.course {
+            td.course 
+            {
                 width:80%;
                 border: 1px solid #80C1CA;
             }
             
-            td.grade {
+            td.grade 
+            {
                 width:30%;
+                border: 1px solid #80C1CA;
+            }
+            
+            td.lettergrade 
+            {
+                width: 30%;
                 border: 1px solid #80C1CA;
             }
             
             form
             {
                 width: 200px;
+                border-radius: 4px;
             }
             
             input
@@ -155,12 +169,9 @@ if(isset($_POST["submitCourse"]))
             {
                 $rows_qUC = mysqli_fetch_all($result_qUC, MYSQLI_BOTH);
             }
-            else 
+            else
             {
-                // If not registered in any courses the user gets kicked to the suggested_schedule page
-                header("Location: suggested_schedule.php");
-                exit;
-                // ^ This is wrog should check Degreeeview for courses schedueled to be taken. TODO
+                $rows_qUC = array(); // Initialize with nothing
             }
             
             // Display the Users currentcourses if any
@@ -177,6 +188,7 @@ if(isset($_POST["submitCourse"]))
                 <tr>
                     <td class="course"><?php courselink($cname); ?></td>
                     <td class="grade"><?php echo "$grade"; ?></td>
+                    <td class="lettergrade"><?php getLetterGrade($grade); ?></td>
                 </tr>
                 <?php
             }
@@ -186,26 +198,24 @@ if(isset($_POST["submitCourse"]))
                     <fieldset>
                         <legend>Enter Course</legend>
                         <input type="text" name="cname" placeholder="Course Name" required autofocus/><br/>
-                        <input style="width: 40px;" type="number" min="0" max="100" name="year" required/><br/>
+                        <input style="width: 40px;" type="number" min="0" max="100" name="grade" required/><br/>
                         <input id="formSubmit" type="submit" name="submitCourse" value="Apply"/>
                     </fieldset>
                 </form>
                 <button id="inputCourse">Input Course</button><br/><br/>
-                
         <?php
             // Retrive data from DegreeView table //qDV -> query DegreeView //Will be used for calculations
             $sql_qDV = "SELECT * FROM DegreeView WHERE uid = '$uid'";
             $result_qDV = mysqli_query($mysqli, $sql_qDV) or die(mysqli_error($mysqli));
             
-            if(mysqli_num_rows($result_qUC) != 0)
+            if(mysqli_num_rows($result_qDV) != 0)
             {
                 $rows_qDV = mysqli_fetch_all($result_qDV, MYSQLI_BOTH);
             }
             else 
             {
-                // If not registered in any courses the user gets kicked to the suggested_schedule page
-                header("Location: suggested_schedule.php");
-                exit;
+                // If not registered in any courses initialize messae
+                $noCourseSaved = "You currently have no courses saved. go to";
             }
             
             // Display the Users currentcourses if any
@@ -225,6 +235,7 @@ if(isset($_POST["submitCourse"]))
             }
         ?>
                 </table><br>
+                <a href="suggested_schedule.php">Suggested Schedule Page</a>
             </div>    
         <?php include "footer.php"; ?>
     </body>
@@ -236,6 +247,20 @@ if(isset($_POST["submitCourse"]))
 function courselink($cname) {
     // Just echo the variable, for now
     echo $cname;
+}
+
+function getLetterGrade($grade){
+    if($grade >= 90){echo "A+";}
+    else if($grade >= 85){echo "A";}
+    else if($grade >= 80){echo "A-";}
+    else if($grade >= 76){echo "B+";}
+    else if($grade >= 72){echo "B";}
+    else if($grade >= 68){echo "B-";}
+    else if($grade >= 64){echo "C+";}
+    else if($grade >= 60){echo "C";}
+    else if($grade >= 55){echo "C-";}
+    else if($grade >= 50){echo "D";}
+    else{echo "F";}
 }
 
 //Credit for a lot of the code goes to Eliana Wardle

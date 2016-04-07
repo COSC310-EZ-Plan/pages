@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
          <title>Browser</title>
@@ -100,12 +95,9 @@ and open the template in the editor.
                 margin:0px;
                 padding:0px;
             }
-            
-            
-            
             footer{
                 position: absolute;
-                bottom: 8px;
+                bottom: 7px;
                 width: 98.7%;
             }
             input[type=submit]
@@ -145,15 +137,11 @@ and open the template in the editor.
         <?php include "header.php";?>
         <h1 style="text-align:center">Course Browser</h1>
         <div id = "wrapper" align="center">
-            
-               
             <form name = "form1" method="get" action="searchresults.php">
                 <input name ="course" type="text" size="40" maxlength="50" />
                 <input type="submit" name="Submit" value="Search" />
-               
             </form>
-                
-            </div>
-       <?php include "footer.php";?>
+        </div>
+        <?php include "footer.php";?>
     </body>
 </html>

@@ -33,4 +33,3 @@
 <p id = "ind"> - </p>
 <p id = "ind"> - </p>
 <p id = "ind"> - </p>
-
