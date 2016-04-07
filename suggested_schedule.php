@@ -30,10 +30,12 @@ if ($mysqli == NULL) {
                 border:1px solid black;
                 width:100%;
                 background-color: #DDF5F8;
+                border-radius: 4px;
             }
             table.courselist tr td {
                 padding: 5px;
                 margin: 5px;
+                border-radius: 4px;
             }
 
             td.course {

@@ -114,14 +114,7 @@ and open the template in the editor.
     </head>
     <body>
         <div id="wrapper">
-            <div id = "header">
-                    <button class ='homebtn' onclick ='location.href="http://google.com"'> Home </button>
-                    <button class ='myinfobtn' onclick ='location.href="http://google.com"'> myInfo </button>
-                    <button class ='myschedbtn' onclick ='location.href="http://google.com"'> mySchedule </button>
-                    <button class ='coursebtn' onclick ='location.href="http://google.com"'> Course Browser </button>
-            </div>
-            
-            <div>
+            <?php include "header.php" ?>
                 <form method="post" action="" style="width:30%">
                     <fieldset>
                         <legend>My Schedule</legend>
@@ -145,10 +138,10 @@ and open the template in the editor.
                         
                         Electives Courses:<textarea name="Courses" rows="8" cols="400">
                         Possible elective courses shows up here
-                        </textarea><br/>                        
-                     
-                        
+                        </textarea><br/>
                     </fieldset>
                 </form>
-            </div>
- 
+            <?php include "footer.php" ?>
+        </div>
+    </body>
+</html>

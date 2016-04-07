@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <?php
 session_start();
 require "connection.php";
-/*if (filter_input(INPUT_COOKIE, "auth") != 1) {
+
+// Set up connection; redirect to log in if cannot connect or not logged in
+if (filter_input(INPUT_COOKIE, "auth") != 1) {
     header("Location: index.php");
-}*/
-$uid;
-//$email = $_SESSION["email"];
-$email = "jdoe@gmail.com"; //test
+    exit;
+}
+
+$uid = $_SESSION["uid"];
+$email = $_SESSION["email"];	
+//$email = "jdoe@gmail.com"; //test
 $name; //john doe
 $year; //1
 $degree;
@@ -24,11 +23,10 @@ $remaining = $requiredcred - $currentcred;
 
 $conn = getConnection();
 //GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
-$sql = "SELECT* FROM User where email= '$email'";
+$sql = "SELECT * FROM User WHERE uid = $uid";
 $res = mysqli_query($conn,$sql) or die(mysqli_error($conn));
 if(mysqli_num_rows($res) < 1){
     echo "<h1>No rows found...</h1>";
-    
 }
 else{
     while ($row = mysqli_fetch_array($res)) 
@@ -36,14 +34,12 @@ else{
 		$name = stripslashes($row['fname'])." ".stripslashes($row['lname']);
 		$year = stripslashes($row['year']);
 		$degree = stripslashes($row['umajor']);
-		$email = stripslashes($row['email']);
-                $uid = stripslashes($row['uid']);
 	}
 }
 $major = substr($degree,strpos($degree,",")+2);
 //echo "Query:".$year.",".$name.",",$major.",".$uid; //test echo
 $res -> free();
-$sql2 = "SELECT* FROM UserCourse where uid = '$uid'";   
+$sql2 = "SELECT* FROM UserCourse WHERE uid = '$uid'";   
 $res2 = mysqli_query($conn,$sql2) or die(mysqli_error($conn));  //get users courses
 if(mysqli_num_rows($res2) < 1){
     echo "<h1>No rows found...</h1>";
@@ -51,7 +47,7 @@ if(mysqli_num_rows($res2) < 1){
 else{
     while ($row = mysqli_fetch_array($res2)){   //counting credits based off each course in userCourse
            $cc = $row["cname"];
-           $sql3 = "SELECT credits FROM Course where cname = '$cc'";
+           $sql3 = "SELECT credits FROM Course WHERE cname = '$cc'";
            $res3 = mysqli_query($conn,$sql3) or die(mysqli_error($conn));
            if(mysqli_num_rows($res2) < 1){
                 echo "<h1>No rows found...</h1>";
@@ -65,7 +61,7 @@ else{
 }
 $res2 -> free();
 $res3 -> free();
-$sql4 = "SELECT mincredits FROM DegreeType where degree = '$degree'";
+$sql4 = "SELECT mincredits FROM DegreeType WHERE degree = '$degree'";
 $res4 = mysqli_query($conn,$sql4) or die(mysqli_error($conn));
 if(mysqli_num_rows($res4) < 1){
     echo "<h1>No rows found...</h1>";
@@ -112,24 +108,16 @@ $res4 -> free();
                 border-width: 5px;
             }
             #wrapper{
-                position: relative;
                 width: 100%;
+                margin-top: 5%;
+                margin-left: 10%;
             }
-            #userinfo{
+            .floating-boxs{
+                display: inline-table;
+                margin: 10px;
+                width: 500px;
+                height: 400px;
                 background-color: lightcyan;
-                width: 600px;
-                height: 440px;
-                position: absolute;
-                left: 275px;
-                top: 100px;
-            }
-            #degreeinfo{
-                background-color: lightcyan;
-                width: auto;
-                height: auto;
-                right: 300px;
-                top: 100px;
-                position:absolute;
             }
             #userheader{
                 background-color: white;
@@ -143,17 +131,16 @@ $res4 -> free();
                 text-align: center;
             }
             footer{
-                position:absolute;
-                bottom:0;
+                position: absolute;
+                bottom: 7px;
+                width: 98.7%;
             }
-           
-          
         </style>
     </head>
     <body>
         <?php include("header.php");?>
         <div id="wrapper">
-            <table id ="userinfo">
+            <table id ="userinfo" class="floating-boxs">
                 <th><h2>Welcome <?php echo $name;?>!</h2></th>
                 <tr>
                     <td>
@@ -171,7 +158,7 @@ $res4 -> free();
                     </td>
                 </tr>
             </table>
-            <table id="degreeinfo">
+            <table id="degreeinfo" class="floating-boxs">
                 <th><h2>Degree Overview</h2></th>
                 <tr>
                     <td>
@@ -191,7 +178,7 @@ $res4 -> free();
                 </tr>
                 <tr>
                     <td>
-                        <form name="edit schedule" action = "my_schedule_page.php">
+                        <form name="edit schedule" action = "suggested_schedule.php">
                         <input type="submit" value ="edit schedule" style = "margin-bottom:5px"/>
                         </form>
                     </td>
