@@ -377,7 +377,6 @@ echo "<tr><td class='course'>"
         </form>
         
         <br></div>
-        <p><a href="home_page.php">Return to Home Page</a></p>
         <?php include "footer.php" ?>
     </body>
 </html>

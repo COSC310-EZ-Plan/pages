@@ -111,7 +111,6 @@ $res4 -> free();
                 border-width: 5px;
             }
             #wrapper{
-                width: 100%;
                 margin-top: 5%;
                 margin-left: 10%;
             }
@@ -133,15 +132,12 @@ $res4 -> free();
             form{
                 text-align: center;
             }
-            footer{
-                position: absolute;
-                bottom: 7px;
-                width: 98.7%;
-            }
         </style>
     </head>
     <body>
-        <?php include("header.php");?>
+        <div id="header">
+            <?php include("header.php");?>
+        </div>
         <div id="wrapper">
             <table id ="userinfo" class="floating-boxs">
                 <th><h2>Welcome <?php echo $name;?>!</h2></th>
@@ -188,6 +184,8 @@ $res4 -> free();
                 </tr>
             </table>
         </div>
-        <?php include("footer.php");?>
+        <div if="footer">
+            <?php include("footer.php");?>
+        </div>
     </body>
 </html>
