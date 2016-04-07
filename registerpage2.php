@@ -21,7 +21,7 @@
 
     //Get connection
     $con = getConnection();
-    if ($conn == NULL) {
+    if ($con == NULL) {
         header("Location: no_connection.php");
         exit;
     }
