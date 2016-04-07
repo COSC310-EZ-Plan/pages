@@ -13,6 +13,10 @@ $degree;
 $major; //compsci
 //DATABASE STUFF BELOW
 $conn = getConnection();
+if ($conn == NULL) {
+    header("Location: no_connection.php");
+    exit;
+}
 //GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
 $sql = "SELECT* FROM User WHERE uid= '$uid'";
 $res = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -42,11 +46,33 @@ $major = substr($degree, strpos($degree, ",") + 2);
         <style>
             #content{
                 margin-left: 20%;
+                background-color: white;
             }
-            footer{
-                position: absolute;
-                bottom: 7px;
-                width: 98.7%;
+            form
+            {
+                width: 200px;
+                border-radius: 4px;
+            }
+            
+            input, select
+            {
+                padding: 5px;
+                margin-bottom: 10px;
+                display: inline-block;
+                border: 2px solid #000;
+                border-radius: 4px;
+            }
+            
+            input[type=submit]
+            {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: cadetblue;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13pt;
             }
         </style>
     </head>

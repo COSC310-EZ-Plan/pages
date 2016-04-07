@@ -16,6 +16,10 @@ $year = filter_input(INPUT_POST, 'year');
 $interest = filter_input(INPUT_POST, 'interest');
 //Get connection
 $con = getConnection();
+if ($con == NULL) {
+    header("Location: no_connection.php");
+    exit;
+}
 
 //no new password or new pass
 if (empty($cpassword) && empty($password)) {

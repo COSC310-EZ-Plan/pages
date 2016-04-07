@@ -20,8 +20,11 @@ $currentcred = 0;
 $requiredcred; 
 $remaining = $requiredcred - $currentcred;
 //DATABASE STUFF BELOW
-
 $conn = getConnection();
+if ($conn == NULL) {
+    header("Location: no_connection.php");
+    exit;
+}
 //GET DEGREE STUFF, ADD CORRECT CREDIT REQ TO VARIABLES
 $sql = "SELECT * FROM User WHERE uid = $uid";
 $res = mysqli_query($conn,$sql) or die(mysqli_error($conn));

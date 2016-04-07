@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php 
 session_start();
 require "connection.php";
@@ -6,9 +7,10 @@ $uid = $_SESSION["uid"];
 //connection
 $conn = getConnection();
 $add = $_GET['add'];
-if(! $conn ) {
-      die('Could not connect: ' . mysql_error());
-   }
+if ($conn == NULL) {
+    header("Location: no_connection.php");
+    exit;
+}
 
     $search_sql= "SELECT cname FROM UserCourse WHERE cname LIKE'".$add."' AND uid = '".$uid."';"; 
     mysql_select_db('db_ioyedele');
@@ -18,7 +20,6 @@ if(! $conn ) {
     
     
 ?>
-<!DOCTYPE html>
 <html>
     <head>
          <title>Courses</title>
@@ -160,6 +161,6 @@ if(! $conn ) {
                
             </form>
         </div>
-        
+        <?php include "footer.php";?>
     </body>
 
