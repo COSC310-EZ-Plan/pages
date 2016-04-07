@@ -111,7 +111,6 @@ $res4 -> free();
                 border-width: 5px;
             }
             #wrapper{
-                width: 100%;
                 margin-top: 5%;
                 margin-left: 10%;
             }
